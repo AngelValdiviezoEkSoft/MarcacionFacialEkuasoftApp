@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 
 class FaceDetectorService {
-  CameraService _cameraService = getIt<CameraService>();
+  late CameraService _cameraService;
 
   late FaceDetector _faceDetector;
   FaceDetector get faceDetector => _faceDetector;
@@ -16,6 +16,7 @@ class FaceDetectorService {
   bool get faceDetected => _faces.isNotEmpty;
 
   void initialize() {
+    _cameraService = getIt<CameraService>();
     _faceDetector = GoogleMlKit.vision.faceDetector(
       FaceDetectorOptions(
         performanceMode: FaceDetectorMode.accurate,

@@ -14,9 +14,10 @@ class TomaFotoScreen extends StatefulWidget {
 }
 
 class TomaFotoScreenState extends State<TomaFotoScreen> {
-  CameraService _cameraService = getIt<CameraService>();
-  FaceDetectorService _faceDetectorService = getIt<FaceDetectorService>();
-  MLService _mlService = getIt<MLService>();
+  late CameraService _cameraService;
+  late FaceDetectorService _faceDetectorService;
+  late MLService _mlService;
+  late FaceDetectorService _mlKitService;
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -38,8 +39,18 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
   }
 
   Future _start() async {
+    _faceDetectorService = getIt<FaceDetectorService>();
+    _cameraService = getIt<CameraService>();
+    _mlService = getIt<MLService>();
+    _mlKitService = getIt<FaceDetectorService>();
+
     setState(() => _isInitializing = true);
+    //await _cameraService.initialize();
     await _cameraService.initialize();
+    //await _mlService.initialize();
+    _faceDetectorService.initialize();
+    _mlKitService.initialize();
+    
     setState(() => _isInitializing = false);
     _frameFaces();
   }
@@ -58,14 +69,7 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
   Future<void> _predictFacesFromImage({@required CameraImage? image}) async {
     assert(image != null, 'Image is null');
     
-    //try{
-      await _faceDetectorService.detectFacesFromImage(image!);
-    /*
-    }
-    catch(e){
-      print('Error detección rostro: $e');
-    }
-    */
+    await _faceDetectorService.detectFacesFromImage(image!);    
     
     if (_faceDetectorService.faceDetected) {
       _mlService.setCurrentPrediction(image!, _faceDetectorService.faces[0]);
@@ -79,9 +83,11 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
       setState(() => _isPictureTaken = true);
     } else {
       showDialog(
-          context: context,
-          builder: (context) =>
-              AlertDialog(content: Text('No face detected!')));
+        context: context,
+        builder: (context) =>
+          AlertDialog(content: Text('No face detected!')
+        )
+      );
     }
   }
 
@@ -110,14 +116,16 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
     if (_isInitializing) return const Center(child: CircularProgressIndicator());
     
     if (_isPictureTaken)
+    {
       return SinglePicture(imagePath: _cameraService.imagePath!,);
+    }
 
     return CameraDetectionPreview();
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget header = CameraHeader("LOGIN", onBackPressed: _onBackPressed);
+    Widget header = CameraHeader("", onBackPressed: _onBackPressed);
     Widget body = getBodyWidget();
     Widget? fab;
 
@@ -138,7 +146,7 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(20),
           child: const Text(
-            'User not found 😞',
+            'Usuario no encontrado',
             style: TextStyle(fontSize: 20),
           ),
         )
