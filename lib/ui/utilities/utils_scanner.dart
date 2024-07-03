@@ -1,9 +1,4 @@
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
-//import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 
 class UtilsScanner {
   UtilsScanner._();

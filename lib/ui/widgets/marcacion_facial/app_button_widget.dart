@@ -25,21 +25,21 @@ class AppButton extends StatelessWidget {
             BoxShadow(
               color: Colors.blue.withOpacity(0.1),
               blurRadius: 1,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
             ),
           ],
         ),
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         width: MediaQuery.of(context).size.width * 0.8,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               text ?? '',
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             icon

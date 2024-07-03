@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:marcacion_facial_ekuasoft_app/config/config.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 
 class BaseText extends StatelessWidget {

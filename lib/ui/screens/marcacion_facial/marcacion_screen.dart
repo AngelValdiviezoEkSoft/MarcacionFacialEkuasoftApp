@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:marcacion_facial_ekuasoft_app/config/environments/environments.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
-import 'package:marcacion_facial_ekuasoft_app/ui/widgets/base_text_widget.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 enum _SupportState {

@@ -104,19 +104,19 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               AppButton(
                 text: "LOG OUT",
                 onPressed: () {
                   
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.logout,
                   color: Colors.white,
                 ),
-                color: Color(0xFFFF6161),
+                color: const Color(0xFFFF6161),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               )
             ],

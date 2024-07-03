@@ -5,9 +5,9 @@ import 'package:camera/camera.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:marcacion_facial_ekuasoft_app/domain/models/models.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/db/data_base_helper.dart';
-import 'package:marcacion_facial_ekuasoft_app/ui/widgets/services/image_converter.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:image/image.dart' as imglib;
+import 'package:marcacion_facial_ekuasoft_app/config/config.dart';
 
 class MLService {
   Interpreter? _interpreter;
@@ -42,7 +42,7 @@ class MLService {
       _interpreter = await Interpreter.fromAsset('mobilefacenet.tflite',
           options: interpreterOptions);
     } catch (e) {
-      print('Error en el Interpreter: $e');
+      //print('Error en el Interpreter: $e');
     }
   }
 

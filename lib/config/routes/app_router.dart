@@ -1,6 +1,5 @@
 
 import 'package:go_router/go_router.dart';
-import 'package:marcacion_facial_ekuasoft_app/config/config.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 //export 'package:marcacion_facial_ekuasoft_app/ui/screens/marcacion_facial/marcacion_facial.dart';
 

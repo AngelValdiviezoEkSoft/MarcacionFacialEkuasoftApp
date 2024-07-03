@@ -1,6 +1,7 @@
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:marcacion_facial_ekuasoft_app/config/services/services_locator.dart';
 import 'package:marcacion_facial_ekuasoft_app/domain/models/models.dart';
 import 'dart:async';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
@@ -72,7 +73,7 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
     await _faceDetectorService.detectFacesFromImage(image!);    
     
     if (_faceDetectorService.faceDetected) {
-      _mlService.setCurrentPrediction(image!, _faceDetectorService.faces[0]);
+      _mlService.setCurrentPrediction(image, _faceDetectorService.faces[0]);
     }
     if (mounted) setState(() {});
   }

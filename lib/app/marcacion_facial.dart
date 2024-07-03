@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:marcacion_facial_ekuasoft_app/config/config.dart';
-import 'package:marcacion_facial_ekuasoft_app/ui/widgets/widgets.dart';
 import 'package:no_screenshot/no_screenshot.dart';
 
 

@@ -6,14 +6,14 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  static final _databaseName = "MyDatabase.db";
-  static final _databaseVersion = 1;
+  static const _databaseName = "MyDatabase.db";
+  static const _databaseVersion = 1;
 
-  static final table = 'users';
-  static final columnId = 'id';
-  static final columnUser = 'user';
-  static final columnPassword = 'password';
-  static final columnModelData = 'model_data';
+  static const table = 'users';
+  static const columnId = 'id';
+  static const columnUser = 'user';
+  static const columnPassword = 'password';
+  static const columnModelData = 'model_data';
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
