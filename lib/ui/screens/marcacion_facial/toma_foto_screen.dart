@@ -1,11 +1,11 @@
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:marcacion_facial_ekuasoft_app/config/services/services_locator.dart';
 import 'package:marcacion_facial_ekuasoft_app/domain/models/models.dart';
 import 'dart:async';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 export 'package:marcacion_facial_ekuasoft_app/config/config.dart';
+import 'package:marcacion_facial_ekuasoft_app/infraestructure/infraestructure.dart';
 
 class TomaFotoScreen extends StatefulWidget {
   const TomaFotoScreen({Key? key}) : super(key: key);

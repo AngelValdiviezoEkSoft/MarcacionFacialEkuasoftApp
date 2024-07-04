@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:marcacion_facial_ekuasoft_app/app/app.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 import 'package:simple_shadow/simple_shadow.dart';
+import 'package:trust_location/trust_location.dart';
 
 enum _SupportState {
   unknown,
@@ -125,6 +128,20 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
                 width: size.width * 0.65,
                 child: GestureDetector(
                   onTap: () {
+
+                    if(isMockLocation) 
+                    {
+                      Fluttertoast.showToast(
+                        msg: "No hagas trampa, usa tu ubicación real.",
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.TOP,
+                        timeInSecForIosWeb: 5,
+                        backgroundColor: Colors.yellow,
+                        textColor: Colors.black,
+                        fontSize: 16.0
+                      );
+                      return;
+                    }
                     context.push(Rutas().rutaTomaFoto);
                   },
                   child: TextButtonMarcacion(

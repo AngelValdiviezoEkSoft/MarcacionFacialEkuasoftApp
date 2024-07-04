@@ -7,7 +7,8 @@ import 'package:marcacion_facial_ekuasoft_app/domain/models/models.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/db/data_base_helper.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:image/image.dart' as imglib;
-import 'package:marcacion_facial_ekuasoft_app/config/config.dart';
+import 'package:marcacion_facial_ekuasoft_app/infraestructure/infraestructure.dart';
+
 
 class MLService {
   Interpreter? _interpreter;

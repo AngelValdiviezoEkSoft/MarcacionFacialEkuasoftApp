@@ -7,6 +7,13 @@ environment:
   sdk: '>=3.4.3 <4.0.0'
 
 dependencies:
+  trust_location: ^2.0.13
+  geolocator: ^8.0.0 #^9.0.1
+  google_maps_flutter: ^2.7.0
+  google_polyline_algorithm: ^3.1.0
+  bloc: ^8.1.4
+  connectivity_plus: ^6.0.3
+  permission_handler: ^11.3.1
   sqflite: ^2.0.2
   image: ^3.0.2
   tflite_flutter: ^0.9.0

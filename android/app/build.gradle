@@ -50,7 +50,7 @@ android {
         applicationId = "com.example.marcacion_facial_ekuasoft_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdk = 21
+        minSdkVersion flutter.minSdkVersion //versión mínima de android
         targetSdk = 33
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName

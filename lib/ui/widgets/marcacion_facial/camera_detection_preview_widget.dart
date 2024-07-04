@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
+import 'package:marcacion_facial_ekuasoft_app/infraestructure/infraestructure.dart';
 
 class CameraDetectionPreview extends StatelessWidget {
 

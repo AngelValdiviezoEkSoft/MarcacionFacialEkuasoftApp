@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:marcacion_facial_ekuasoft_app/config/config.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marcacion_facial_ekuasoft_app/infraestructure/infraestructure.dart';
+import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 import 'package:no_screenshot/no_screenshot.dart';
+import 'package:trust_location/trust_location.dart';
 
+bool isMockLocation = false;
 
 class MarcacionFacial extends StatefulWidget {
 
@@ -15,6 +19,7 @@ class MarcacionFacial extends StatefulWidget {
 
 class MarcacionFacialState extends State<MarcacionFacial> {
 
+  late LocationBloc locationBloc;
   final noScreenshot = NoScreenshot.instance;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final GlobalKey<ScaffoldMessengerState> messengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -30,6 +35,12 @@ class MarcacionFacialState extends State<MarcacionFacial> {
     _initializeServices();
     //NO BORRAR PORQUE ESTE CÓDIGO SIRVE PARA BLOQUEAR LAS CAPTURAS DE PANTALLA
     noScreenshot.screenshotOff();
+
+    locationBloc = BlocProvider.of<LocationBloc>(context);
+    locationBloc.startFollowingUser(); 
+
+    TrustLocation.start(1);
+    getLocation();
   }
 
   _initializeServices() async {
@@ -44,6 +55,26 @@ class MarcacionFacialState extends State<MarcacionFacial> {
     setState(() => loading = false);
   }
 
+  Future<void> getLocation() async {
+    try {
+      TrustLocation.onChange.listen((values) => 
+      setState(
+        () {
+            isMockLocation = values.isMockLocation ?? false;
+          }
+        )
+      );
+    } on PlatformException catch (_) {
+      //print('PlatformException $e'); 
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    locationBloc.stopFollowingUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     
@@ -51,6 +82,9 @@ class MarcacionFacialState extends State<MarcacionFacial> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
+    final gpsBloc = BlocProvider.of<GpsBloc>(context);
+    gpsBloc.askGpsAccess();
     
     return MaterialApp.router(
         title: 'Friday',
