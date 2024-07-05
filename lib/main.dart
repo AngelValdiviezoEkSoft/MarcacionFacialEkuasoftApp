@@ -18,6 +18,8 @@ void main() {
         BlocProvider(create: (context) => getIt<GpsBloc>()),
         BlocProvider(create: (context) => getIt<LocationBloc>()),        
         BlocProvider(create: (context) => getIt<VerificacionBloc>()),
+        BlocProvider(create: (context) => getIt<MapBloc>()),
+        BlocProvider(create: (context) => getIt<GenericBloc>()),
         
       ],
       child: const ProviderScope(child: MarcacionFacial()),

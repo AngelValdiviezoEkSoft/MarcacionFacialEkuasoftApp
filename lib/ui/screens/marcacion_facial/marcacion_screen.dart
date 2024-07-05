@@ -3,10 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:marcacion_facial_ekuasoft_app/app/app.dart';
+//import 'package:marcacion_facial_ekuasoft_app/app/app.dart';
+import 'package:marcacion_facial_ekuasoft_app/domain/domain.dart';
+
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
+
 import 'package:simple_shadow/simple_shadow.dart';
-import 'package:trust_location/trust_location.dart';
 
 enum _SupportState {
   unknown,
@@ -104,6 +106,26 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
 
     final size = MediaQuery.of(context).size;
 
+    List<LocalidadType> lstLocalidades = [];
+//-2.194379, -79.762934
+    lstLocalidades.add(
+      LocalidadType(
+        codigo: '0123',
+        descripcion: 'Test',
+        esPrincipal: true,
+        estado: '',
+        fechaCreacion: DateTime.now(),
+        id: '1',
+        idEmpresa: '1',
+        radio: 0.07,
+        usuarioCreacion: '',
+        usuarioModificacion: '',
+        fechaModificacion: DateTime.now(),
+        latitud: -2.194379,
+        longitud: -79.762934
+      )
+    );
+
     return Scaffold(
       body: MainBackgroundWidget(
         child: SafeArea(
@@ -120,6 +142,18 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
                 sigma: 5,
                 child: SvgPicture.asset(
                   'assets/icons/friday_logotext.svg',
+                ),
+              ),
+              SizedBox(height: size.height * 0.04,),
+              Container(
+                color: Colors.transparent,
+                width: size.width * 0.92,
+                height: size.height * 0.45,//size.height * 0.4,//Descomentar si solicitan el mapa
+                child: Scaffold(
+                  body: Opacity(
+                    opacity: 1,
+                    child: MarcacionMapScreen(lstLocalidad: lstLocalidades), 
+                  ),
                 ),
               ),
               SizedBox(height: size.height * 0.04,),

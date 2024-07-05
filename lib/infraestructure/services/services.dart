@@ -1,3 +1,4 @@
+export 'package:marcacion_facial_ekuasoft_app/infraestructure/services/localidad_service.dart';
 
 export 'package:marcacion_facial_ekuasoft_app/infraestructure/services/marcacion_service.dart';
 

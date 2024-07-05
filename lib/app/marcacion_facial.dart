@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcacion_facial_ekuasoft_app/infraestructure/infraestructure.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 import 'package:no_screenshot/no_screenshot.dart';
+import 'package:provider/provider.dart';
 import 'package:trust_location/trust_location.dart';
 
 bool isMockLocation = false;
@@ -33,7 +34,7 @@ class MarcacionFacialState extends State<MarcacionFacial> {
   void initState() {
     super.initState();
     _initializeServices();
-    //NO BORRAR PORQUE ESTE CÓDIGO SIRVE PARA BLOQUEAR LAS CAPTURAS DE PANTALLA
+    
     noScreenshot.screenshotOff();
 
     locationBloc = BlocProvider.of<LocationBloc>(context);
@@ -46,7 +47,7 @@ class MarcacionFacialState extends State<MarcacionFacial> {
   _initializeServices() async {
     _mlService = getIt<MLService>();
     _mlKitService = getIt<FaceDetectorService>();
-    _cameraService = getIt<CameraService>();
+    _cameraService = getIt<CameraService>();    
 
     setState(() => loading = true);
     await _cameraService.initialize();
@@ -86,10 +87,18 @@ class MarcacionFacialState extends State<MarcacionFacial> {
     final gpsBloc = BlocProvider.of<GpsBloc>(context);
     gpsBloc.askGpsAccess();
     
-    return MaterialApp.router(
-        title: 'Friday',
-        debugShowCheckedModeBanner: false,
-        routerConfig: appRouter,
-      );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => LocalidadService(),
+          lazy: false,
+        ),
+      ],
+      child: MaterialApp.router(
+          title: 'Friday',
+          debugShowCheckedModeBanner: false,
+          routerConfig: appRouter,
+        ),
+    );
   }
 }

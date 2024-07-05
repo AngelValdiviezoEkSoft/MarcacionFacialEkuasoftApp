@@ -22,6 +22,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
+          color: Colors.transparent,
           child: Column(
             children: [
               Row(
@@ -35,7 +36,7 @@ class ProfileScreen extends StatelessWidget {
                         image: FileImage(File(imagePath)),
                       ),
                     ),
-                    margin: EdgeInsets.all(20),
+                    margin: const EdgeInsets.all(20),
                     width: 50,
                     height: 50,
                   ),
@@ -79,15 +80,14 @@ class ProfileScreen extends StatelessWidget {
                             BoxShadow(
                               color: Colors.blue.withOpacity(0.1),
                               blurRadius: 1,
-                              offset: Offset(0, 2),
+                              offset: const Offset(0, 2),
                             ),
                           ],
                         ),
                         alignment: Alignment.center,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                         width: MediaQuery.of(context).size.width * 0.8,
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
