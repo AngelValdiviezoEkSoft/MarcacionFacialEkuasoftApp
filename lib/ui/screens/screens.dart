@@ -5,3 +5,5 @@ export 'package:marcacion_facial_ekuasoft_app/ui/screens/marcacion_facial/marcac
 export 'package:marcacion_facial_ekuasoft_app/ui/screens/errores/errores.dart';
 
 export 'package:marcacion_facial_ekuasoft_app/ui/screens/mapas/mapas.dart';
+
+export 'package:marcacion_facial_ekuasoft_app/ui/screens/onboarding/onboarding.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -10,11 +11,13 @@ import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 
 import 'package:simple_shadow/simple_shadow.dart';
 
+/*
 enum _SupportState {
   unknown,
   supported,
   unsupported,
 }
+*/
 
 class MarcacionScreen extends StatefulWidget {
   const MarcacionScreen({super.key});
@@ -27,16 +30,18 @@ class MarcacionScreen extends StatefulWidget {
 class _MarcacionScreenState extends State<MarcacionScreen> {
 
   final LocalAuthentication auth = LocalAuthentication();
-  _SupportState _supportState = _SupportState.unknown;
+  //_SupportState _supportState = _SupportState.unknown;
   
   @override
   void initState() {
     super.initState();
+    /*
     auth.isDeviceSupported().then(
           (bool isSupported) => setState(() => _supportState = isSupported
               ? _SupportState.supported
               : _SupportState.unsupported),
         );
+        */
   }
 
   @override
@@ -117,7 +122,7 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
         fechaCreacion: DateTime.now(),
         id: '1',
         idEmpresa: '1',
-        radio: 0.07,
+        radio: 0.01,
         usuarioCreacion: '',
         usuarioModificacion: '',
         fechaModificacion: DateTime.now(),
@@ -126,71 +131,138 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
       )
     );
 
-    return Scaffold(
-      body: MainBackgroundWidget(
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/icons/friday_logomark.svg',
-              ),
-              const SizedBox(height: 30),
-              SimpleShadow(
-                opacity: 0.9,
-                offset: const Offset(0, 4),
-                sigma: 5,
-                child: SvgPicture.asset(
-                  'assets/icons/friday_logotext.svg',
-                ),
-              ),
-              SizedBox(height: size.height * 0.04,),
-              Container(
-                color: Colors.transparent,
-                width: size.width * 0.92,
-                height: size.height * 0.45,//size.height * 0.4,//Descomentar si solicitan el mapa
-                child: Scaffold(
-                  body: Opacity(
-                    opacity: 1,
-                    child: MarcacionMapScreen(lstLocalidad: lstLocalidades), 
-                  ),
-                ),
-              ),
-              SizedBox(height: size.height * 0.04,),
-              Container(
-                color: Colors.transparent,
-                width: size.width * 0.65,
-                child: GestureDetector(
-                  onTap: () {
+    Color colorBtn = Colors.transparent;
+    bool localizacionValida = false;
 
-                    if(isMockLocation) 
-                    {
-                      Fluttertoast.showToast(
-                        msg: "No hagas trampa, usa tu ubicación real.",
-                        toastLength: Toast.LENGTH_LONG,
-                        gravity: ToastGravity.TOP,
-                        timeInSecForIosWeb: 5,
-                        backgroundColor: Colors.yellow,
-                        textColor: Colors.black,
-                        fontSize: 16.0
-                      );
-                      return;
-                    }
-                    context.push(Rutas().rutaTomaFoto);
-                  },
-                  child: TextButtonMarcacion(
-                    text: 'Realizar Marcación',
-                    colorBoton: ColorsApp().morado,
-                    colorTexto: Colors.white,
-                    tamanioLetra: null,
-                    tamanioBordes: null,
-                    colorBordes: ColorsApp().morado,
+    return Scaffold(
+      body: BlocBuilder<GenericBloc, GenericState>(
+        builder: (context,state) {
+
+          if(state.coordenadasMapa < state.radioMarcacion) {
+            /*
+            btnMarcacionFacial = '${objCadConMenuMarcaciones.endPointImagenes}btnMarcacionFacialActivo.png';
+            btnMarcacionHuella = '${objCadConMenuMarcaciones.endPointImagenes}btnMarcacionHuellaActivo.png';
+            */
+            colorBtn = Colors.green;
+            localizacionValida = true;
+          } else {
+            /*
+            btnMarcacionFacial = '${objCadConMenuMarcaciones.endPointImagenes}btnMarcacionFacialInactivo.png';
+            btnMarcacionHuella = '${objCadConMenuMarcaciones.endPointImagenes}btnMarcacionHuellaInactivo.png';
+            */
+            colorBtn = Colors.red;
+            localizacionValida = false;
+          }
+
+          return MainBackgroundWidget(
+            child: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/icons/friday_logomark.svg',
                   ),
-                ),
-              )
-            ],
-          ),
-        ),
+          
+                  SizedBox(height: size.height * 0.04,),
+          
+                  SimpleShadow(
+                    opacity: 0.9,
+                    offset: const Offset(0, 4),
+                    sigma: 5,
+                    child: SvgPicture.asset(
+                      'assets/icons/friday_logotext.svg',
+                    ),
+                  ),
+                  
+                  SizedBox(height: size.height * 0.04,),
+          
+                  Container(
+                    color: Colors.transparent,
+                    width: size.width * 0.92,
+                    height: size.height * 0.45,
+                    child: Scaffold( 
+                      body: Opacity(
+                        opacity: 1,
+                        child: MarcacionMapScreen(null, lstLocalidad: lstLocalidades), 
+                      ),
+                    ),
+                  ),
+          
+                  SizedBox(height: size.height * 0.04,),
+          
+                  Container(
+                    color: Colors.transparent,
+                    width: size.width * 0.65,
+                    child: GestureDetector(
+                      onTap: () {
+          
+                        if(isMockLocation)
+                        {
+                          Fluttertoast.showToast(
+                            msg: "No hagas trampa, usa tu ubicación real.",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.yellow,
+                            textColor: Colors.black,
+                            fontSize: 16.0
+                          );
+                          return;
+                        }
+
+                        if(!localizacionValida){
+                          Fluttertoast.showToast(
+                            msg: "No se encuentra dentro de la localidad designada para marcar.",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.yellow,
+                            textColor: Colors.black,
+                            fontSize: 16.0
+                          );
+                          return;
+                        }
+
+                        context.push(Rutas().rutaTomaFoto);
+                      },
+                      child: TextButtonMarcacion(
+                        text: 'Realizar Marcación',
+                        colorBoton: colorBtn,//ColorsApp().morado,
+                        colorTexto: Colors.white,
+                        tamanioLetra: null,
+                        tamanioBordes: null,
+                        colorBordes: ColorsApp().morado,
+                      ),
+                    ),
+                  ),
+                
+                  SizedBox(height: size.height * 0.02,),
+          
+                  Container(
+                    color: Colors.transparent,
+                    width: size.width * 0.65,
+                    child: GestureDetector(
+                      onTap: () {
+                        final gpsBloc = BlocProvider.of<GpsBloc>(context);
+                        gpsBloc.vuelveUbicacionNormal(false);
+                        context.push(Rutas().rutaDatosPersonalesOnBoarding);
+                      },
+                      child: TextButtonMarcacion(
+                        text: 'Registrate',
+                        colorBoton: ColorsApp().morado,
+                        colorTexto: Colors.white,
+                        tamanioLetra: null,
+                        tamanioBordes: null,
+                        colorBordes: ColorsApp().morado,
+                      ),
+                    ),
+                  )
+                
+                ],
+              ),
+            ),
+          );
+        }
       ),
     );
   }

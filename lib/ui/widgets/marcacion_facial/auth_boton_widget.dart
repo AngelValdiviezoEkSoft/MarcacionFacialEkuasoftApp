@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AuthButton extends StatelessWidget {
-  const AuthButton({Key? key, required this.onTap}) : super(key: key);
+  const AuthButton(Key? key, {required this.textoBoton, required this.onTap}) : super(key: key);
   final void Function() onTap;
+  final String textoBoton;
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +25,18 @@ class AuthButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         width: MediaQuery.of(context).size.width * 0.8,
         height: 60,
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Marcar',
-              style: TextStyle(color: Colors.white),
+              //'Marcar',
+              textoBoton,
+              style: const TextStyle(color: Colors.white),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
-            Icon(Icons.camera_alt, color: Colors.white)
+            const Icon(Icons.camera_alt, color: Colors.white)
           ],
         ),
       ),

@@ -20,6 +20,9 @@ void main() {
         BlocProvider(create: (context) => getIt<VerificacionBloc>()),
         BlocProvider(create: (context) => getIt<MapBloc>()),
         BlocProvider(create: (context) => getIt<GenericBloc>()),
+        BlocProvider(create: (context) => getIt<AuthBloc>()),
+        BlocProvider(create: (context) => getIt<SuscripcionBloc>()),
+        BlocProvider(create: (context) => getIt<SearchBloc>()),
         
       ],
       child: const ProviderScope(child: MarcacionFacial()),

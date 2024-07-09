@@ -8,7 +8,7 @@ import 'package:marcacion_facial_ekuasoft_app/domain/domain.dart';
 import 'dart:math' show cos, sqrt, asin;
 
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
-import 'package:marcacion_facial_ekuasoft_app/domain/domain.dart';
+//import 'package:marcacion_facial_ekuasoft_app/domain/domain.dart';
 import 'package:marcacion_facial_ekuasoft_app/infraestructure/infraestructure.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +25,7 @@ List<LocalidadType>? lstLocalidadVerifica;
 class MarcacionMapScreen extends StatefulWidget {
   
 
-  MarcacionMapScreen({Key? key,lstLocalidad}) : super(key: key){
+  MarcacionMapScreen(Key? key,{lstLocalidad}) : super(key: key){
     
     if(lstLocalidad != null) {
       lstLocalidadVerifica = lstLocalidad;
@@ -52,18 +52,15 @@ class _MarcacionMapScreenState extends State<MarcacionMapScreen> {
   Widget build(BuildContext context) {
 
     Provider.of<LocalidadService>(context).obtenerLocalidadMarcacion('');
-    List<LocalidadType> listaLocalidades = Provider.of<LocalidadService>(context).listaLocalidades;
+    //List<LocalidadType> listaLocalidades = Provider.of<LocalidadService>(context).listaLocalidades;
 
     return WillPopScope(
       onWillPop: () async => false,
-      child: ///dirProsp == '' ?
-        
-      Scaffold(
-        
+      child: Scaffold(        
         body: BlocBuilder<GenericBloc, GenericState>(
           builder: (context, colorState) {
-          return BlocBuilder<LocationBloc, LocationState>(
-            builder: (context, locationState) { 
+            return BlocBuilder<LocationBloc, LocationState>(
+              builder: (context, locationState) { 
               
                 if (locationState.lastKnownLocation == null) { 
                   final varPosicionInicial = BlocProvider.of<GenericBloc>(context);
@@ -132,7 +129,6 @@ class _MarcacionMapScreenState extends State<MarcacionMapScreen> {
                     )
                   ]);
                   
-
                   final marcadorFinal = Map<String, Marker>.from(mapState.markers);
                   marcadorFinal['end'] = marcadorDestino;
       
@@ -142,10 +138,8 @@ class _MarcacionMapScreenState extends State<MarcacionMapScreen> {
                             
                             MapView(
                               initialLocation: locationState.lastKnownLocation!,
-                              //polylines: mapState.polylines.values.toSet(),//polylines.values.toSet(), 
-                              markers: marcadorFinal.values.toSet(),//mapState.markers.values.toSet(),
+                              markers: marcadorFinal.values.toSet(),
                               circleLlegada: circleLst,
-                              //circleLlegada: const {},
                               llegadaLocation: LatLng(latLlegada, lonLlegada),
                             ),
                             
@@ -155,12 +149,11 @@ class _MarcacionMapScreenState extends State<MarcacionMapScreen> {
                     
                 },
               );
+              
               },
             );
           },
         ),
-        //Descomentar en caso de necesitar el mapa
-
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -169,7 +162,6 @@ class _MarcacionMapScreenState extends State<MarcacionMapScreen> {
           ],
         ),
       )
-    
     );
   }
 

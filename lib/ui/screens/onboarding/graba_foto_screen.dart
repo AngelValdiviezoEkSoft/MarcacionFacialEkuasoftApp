@@ -1,20 +1,21 @@
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:marcacion_facial_ekuasoft_app/domain/models/models.dart';
 import 'dart:async';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 export 'package:marcacion_facial_ekuasoft_app/config/config.dart';
 import 'package:marcacion_facial_ekuasoft_app/infraestructure/infraestructure.dart';
 
-class TomaFotoScreen extends StatefulWidget {
-  const TomaFotoScreen(Key? key) : super(key: key);
+class GrabaFotoScreen extends StatefulWidget {
+  const GrabaFotoScreen(Key? key) : super(key: key);
 
   @override
-  TomaFotoScreenState createState() => TomaFotoScreenState();
+  GrabaFotoScreenState createState() => GrabaFotoScreenState();
 }
 
-class TomaFotoScreenState extends State<TomaFotoScreen> {
+class GrabaFotoScreenState extends State<GrabaFotoScreen> {
 
   late CameraService _cameraService;
   late FaceDetectorService _faceDetectorService;
@@ -59,12 +60,14 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
 
   _frameFaces() async {
     bool processing = false;
-    _cameraService.cameraController!
-        .startImageStream((CameraImage image) async {
-      if (processing) return; // prevents unnecessary overprocessing.
+    _cameraService.cameraController!.startImageStream((CameraImage image) async {
+      
+      if (processing) return;
+
       processing = true;
       await _predictFacesFromImage(image: image);
       processing = false;
+
     });
   }
 
@@ -81,8 +84,64 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
 
   Future<void> takePicture() async {
     if (_faceDetectorService.faceDetected) {
-      await _cameraService.takePicture();
-      setState(() => _isPictureTaken = true);
+      
+      final pickedFile = await _cameraService.takePicture();
+      //setState(() => _isPictureTaken = true);
+      
+      
+      //final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+
+      try {
+        if (pickedFile != null) {
+          final croppedFile = await ImageCropper().cropImage(                                        
+            sourcePath: pickedFile.path,
+            compressFormat: ImageCompressFormat.png,
+            compressQuality: 100,
+            uiSettings: [
+              AndroidUiSettings(
+                hideBottomControls: true,
+                toolbarTitle: 'Recortando',
+                toolbarColor: Colors.deepOrange,
+                toolbarWidgetColor: Colors.white,
+                initAspectRatio: CropAspectRatioPreset.square,
+                lockAspectRatio: false
+              ),
+              IOSUiSettings(
+                title: 'Recortando',
+              ),
+
+            ],
+          );
+          
+          if (croppedFile != null) {
+            /*
+            final bytes = File(croppedFile.path).readAsBytesSync();
+            String img64 = base64Encode(bytes);
+            */
+
+            validandoFoto = true;
+
+            setState(() {});
+
+            validandoFoto = false;
+            
+            rutaNuevaFotoPerfil = croppedFile.path;
+
+            setState(() {});
+
+            _cameraService.dispose();
+            _mlService.dispose();
+            _faceDetectorService.dispose();
+
+            //ignore: use_build_context_synchronously
+            context.pop();
+            
+          }
+
+        }
+      } catch(_) {
+        
+      }
     } else {
       showDialog(
         context: context,
@@ -107,8 +166,12 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
     if (_faceDetectorService.faceDetected) {
       
       UserFotoModel? user = await _mlService.predict();
-      var bottomSheetController = scaffoldKey.currentState!.showBottomSheet((context) => tomaFotoScreenSheet(user: user));
-      bottomSheetController.closed.whenComplete(_reload);
+      
+      if(scaffoldKey.currentState != null)
+      {
+        var bottomSheetController = scaffoldKey.currentState!.showBottomSheet((context) => grabaFotoScreenSheet(user: user));
+        bottomSheetController.closed.whenComplete(_reload);
+      }
       
     }
   }
@@ -131,7 +194,7 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
     Widget body = getBodyWidget();
     Widget? fab;
 
-    if (!_isPictureTaken) fab = AuthButton(null, textoBoton: 'Marcar',onTap: onTap);
+    if (!_isPictureTaken) fab = AuthButton(null, textoBoton: 'Tomar foto', onTap: onTap);
 
     return Scaffold(
       key: scaffoldKey,
@@ -146,7 +209,7 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
     );
   }
 
-  tomaFotoScreenSheet({@required UserFotoModel? user}) 
+  grabaFotoScreenSheet({@required UserFotoModel? user}) 
     => user == null ? 
     Container(
       width: MediaQuery.of(context).size.width,
@@ -157,6 +220,6 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
       ),
     )
     : 
-    tomaFotoScreenSheet(user: user);
+    grabaFotoScreenSheet(user: user);
 
 }

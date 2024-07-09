@@ -26,11 +26,12 @@ class CameraDetectionPreview extends StatelessWidget {
             child: Container(
               color: Colors.transparent,
               width: width,
-              height:
-                  width * _cameraService.cameraController!.value.aspectRatio,
+              height: _cameraService.cameraController != null ?
+                  width * _cameraService.cameraController!.value.aspectRatio : width * 0.2,
               child: Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
+                  if(_cameraService.cameraController != null)
                   CameraPreview(_cameraService.cameraController!),
                   if (_faceDetectorService.faceDetected)
                     CustomPaint(

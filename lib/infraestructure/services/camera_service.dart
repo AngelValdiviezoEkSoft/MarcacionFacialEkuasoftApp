@@ -60,6 +60,16 @@ class CameraService {
     return file;
   }
 
+/*
+  Future<XFile?> takePictureOnBoarding() async {
+    assert(_cameraController != null, 'Camera controller not initialized');
+    await _cameraController?.stopImageStream();
+    XFile? file = await _cameraController?.takePicture();
+    _imagePath = file?.path;
+    return file;
+  }
+  */
+
   Size getImageSize() {
     assert(_cameraController != null, 'Camera controller not initialized');
     assert(

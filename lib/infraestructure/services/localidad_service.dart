@@ -47,6 +47,7 @@ class LocalidadService extends ChangeNotifier {
           textColor: Colors.white,
           fontSize: 16.0);
     } on SocketException catch (_) {
+      /*
       Fluttertoast.showToast(
           msg: objMensajesLocalidadService.mensajeFallaInternet,
           toastLength: Toast.LENGTH_LONG,
@@ -55,6 +56,7 @@ class LocalidadService extends ChangeNotifier {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+          */
     } on HttpException catch (_) {
       Fluttertoast.showToast(
           msg: objMensajesLocalidadService.mensajePeticion,

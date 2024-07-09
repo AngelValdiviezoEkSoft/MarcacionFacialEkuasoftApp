@@ -25,4 +25,6 @@ class ColorsApp {
   final Color fucsia = const Color.fromRGBO(241, 43, 138, 1);  
 
   final Color morado = const Color(0xff7D1BE3);
+
+  final Color naranjaIntenso = const Color.fromARGB(255,254,90,0);
 }

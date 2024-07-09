@@ -1,3 +1,5 @@
+export 'package:marcacion_facial_ekuasoft_app/ui/widgets/input_decoration.dart';
+
 export 'package:marcacion_facial_ekuasoft_app/ui/widgets/custom_snackbar.dart';
 
 export 'package:marcacion_facial_ekuasoft_app/ui/widgets/text_button_widget.dart';
