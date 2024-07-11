@@ -1,3 +1,9 @@
+export 'package:marcacion_facial_ekuasoft_app/domain/models/client_type_response.dart';
+
+export 'package:marcacion_facial_ekuasoft_app/domain/models/response_validation.dart';
+
+export 'package:marcacion_facial_ekuasoft_app/domain/models/prospecto_type_response.dart';
+
 export 'package:marcacion_facial_ekuasoft_app/domain/models/search_result.dart';
 
 export 'package:marcacion_facial_ekuasoft_app/domain/models/traffic_response.dart';

@@ -7,6 +7,8 @@ environment:
   sdk: '>=3.4.3 <4.0.0'
 
 dependencies:
+  mobile_device_identifier: ^0.0.2
+  device_info_plus: ^9.1.2
   animate_do: ^3.3.4
   flutter_google_places_sdk: ^0.3.9
   simple_animations: ^4.2.0

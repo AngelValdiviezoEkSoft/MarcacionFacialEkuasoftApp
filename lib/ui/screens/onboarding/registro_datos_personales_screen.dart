@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:marcacion_facial_ekuasoft_app/infraestructure/infraestructure.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:marcacion_facial_ekuasoft_app/domain/domain.dart';
@@ -19,7 +20,37 @@ bool validandoFoto = false;
 String tipoClienteDatosPersonales = '';
 bool varCoordenadasRes = false;
 String direccionProspecto = '';
-ProspectoType? objPrspValido;
+
+ProspectoType objPrspValido = ProspectoType(
+  alias: '',
+  apellidos: '',
+  area: '',
+  autorizadoPor: '',
+  celular: '',
+  codigoEmpresa: '',
+  departamento: '',
+  email: '',
+  empresa: '',
+  fechaNacDate: DateTime.now(),
+  fechaNacimiento: '',
+  grupoEmpresarial: '',
+  id: '',
+  identificacion: '',
+  imagenPerfil: FotoPerfilModel(
+    base64: '',
+    extension: '',
+    nombre: ''
+  ),
+  latitud: 0,
+  longitud: 0,
+  nombres: '',
+  password: '',
+  tipoCliente: '',
+  tipoIdentificacion: '',
+  direccion: '',
+  genero: ''
+);
+
 String rutaNuevaFotoPerfil = '';
 ProspectoType? varObjetoProspectoFunc;
 
@@ -34,11 +65,8 @@ FeatureApp objFeatureAppFrmDatosPersonales = FeatureApp();
 
 //ignore: must_be_immutable
 class RegistroDatosPersonalesScreen extends StatefulWidget {
-  String varCoordenadas = '';
-  String varTipoCliente = '';
-  ProspectoType? objProsplocal;
   
-  RegistroDatosPersonalesScreen(Key? key) : super (key: key);
+  const RegistroDatosPersonalesScreen(Key? key) : super (key: key);
 
   @override
   RegistroDatosPersonalesScreenState createState() => RegistroDatosPersonalesScreenState();
@@ -48,6 +76,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
   
   bool varMostrarDatosCorreo = false;
   
+  /*
   RegistroDatosPersonalesScreenState() {
     varObjProspecto = objPrspValido;
     varObjetoProspectoFunc = objPrspValido; 
@@ -55,6 +84,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
       varMostrarDatosCorreo = true;
     }
   }
+  */
 
   AnimationController? _scaleController;
   AnimationController? _scale2Controller;
@@ -73,6 +103,8 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
   //final Connectivity _connectivity = Connectivity();
 
   ColorsApp objColorsApp = ColorsApp();
+
+  final GlobalKey<FormState> _frmState = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -133,6 +165,36 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
     if(Platform.isIOS) {
       apiKey = objFeatureAppFrmDatosPersonales.apiKeyIos;
     }
+
+    objPrspValido = ProspectoType(
+  alias: '',
+  apellidos: '',
+  area: '',
+  autorizadoPor: '',
+  celular: '',
+  codigoEmpresa: '',
+  departamento: '',
+  email: '',
+  empresa: '',
+  fechaNacDate: DateTime.now(),
+  fechaNacimiento: '',
+  grupoEmpresarial: '',
+  id: '',
+  identificacion: '',
+  imagenPerfil: FotoPerfilModel(
+    base64: '',
+    extension: '',
+    nombre: ''
+  ),
+  latitud: 0,
+  longitud: 0,
+  nombres: '',
+  password: '',
+  tipoCliente: '',
+  tipoIdentificacion: '',
+  direccion: '',
+  genero: ''
+);
  
   }
 
@@ -213,749 +275,534 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
             */
 
             BlocBuilder<SuscripcionBloc, SuscripcionState>(builder: (context, stateSuscripcion) {
-                return Container(
-                  color: Colors.transparent,
-                  width: sizeFrmDatosPers.width,  
-                  child: Form(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: Container(
-                      color: Colors.transparent,
-                      width: sizeFrmDatosPers.width,
-                      height: sizeFrmDatosPers.height,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween, 
-                          children: <Widget>[
-
-                            SizedBox(height: sizeFrmDatosPers.height * 0.008,),
-
-                            Container(
-                                color: Colors.transparent,
-                                width: sizeFrmDatosPers.width,
-                                height: sizeFrmDatosPers.height * 0.1,
-                                alignment: Alignment.bottomCenter,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    MaterialButton(
-                                      shape: const CircleBorder(),
-                                      disabledColor: Colors.white,
-                                      elevation: 0,
-                                      color: Colors.transparent,
-                                      child: Container(
-                                        color: Colors.transparent,
-                                        child: const Icon(
-                                          Icons.arrow_back_ios,
-                                          color: Colors.white,
-                                          size: 30,
-                                        ),
-                                      ),
-                                      onPressed: () {
-
-                                      }
-                                    ),
-
-                                    MaterialButton(
-                                      shape: const CircleBorder(),
-                                      disabledColor: Colors.white,
-                                      elevation: 0,
-                                      color: Colors.transparent,
-                                      child: Container(
-                                        color: Colors.transparent,
-                                        child: const Icon(
-                                          Icons.close,
-                                          color: Colors.white,
-                                          size: 30,
-                                        ),
-                                      ),
-                                      onPressed: () => exit(0),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                            SizedBox(height: sizeFrmDatosPers.height * 0.04,),
-
-                            if(rutaNuevaFotoPerfil == '')
-                            Container(
+                return Form(
+                  key: _frmState,
+                  //autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Container(
+                    color: Colors.transparent,
+                    width: sizeFrmDatosPers.width,
+                    height: sizeFrmDatosPers.height,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                        children: <Widget>[
+                
+                          SizedBox(height: sizeFrmDatosPers.height * 0.008,),
+                
+                          Container(
                               color: Colors.transparent,
-                              height: sizeFrmDatosPers.height * 0.18,
-                              width: sizeFrmDatosPers.width * 0.33,
-                              child: GestureDetector(
-                                onTap: () async {
-                                  /*
-                                  final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
-
-                                  try {
-                                    if (pickedFile != null) {
-                                      final croppedFile = await ImageCropper().cropImage(                                        
-                                        sourcePath: pickedFile.path,
-                                        compressFormat: ImageCompressFormat.png,
-                                        compressQuality: 100,
-                                        uiSettings: [
-                                          AndroidUiSettings(
-                                            hideBottomControls: true,
-                                            toolbarTitle: 'Recortando',
-                                            toolbarColor: Colors.deepOrange,
-                                            toolbarWidgetColor: Colors.white,
-                                            initAspectRatio: CropAspectRatioPreset.square,
-                                            lockAspectRatio: false
-                                          ),
-                                          IOSUiSettings(
-                                            title: 'Recortando',
-                                          ),
-
-                                        ],
-                                      );
-                                      if (croppedFile != null) {
-                                        final bytes = File(croppedFile.path).readAsBytesSync();
-                                        String img64 = base64Encode(bytes);
-
-                                        FotoPerfilModel objFotoPerfilNueva = FotoPerfilModel(
-                                          base64: img64,
-                                          extension: 'png',
-                                          nombre: 'foto_perfil'
-                                        );
-
-                                        validandoFoto = true;
-
-                                        setState(() {});
-
-                                        validandoFoto = false;
-                                        
-                                        /*
-
-                                        ClientTypeResponse objRspValidacionFoto = await UserFormService().verificacionFotoPerfil(null,objFotoPerfilNueva);
-
-                                        if(objRspValidacionFoto.succeeded) {
-                                          coloresTextoRepuesta = Colors.white;
-                                          coloresFondoRepuesta = Colors.green;
-                                        } else {
-                                          coloresTextoRepuesta = Colors.white;
-                                          coloresFondoRepuesta = Colors.red;
-                                        }
-
-                                        Fluttertoast.showToast(
-                                          msg: !objRspValidacionFoto.succeeded ? 'Debe colocar su rostro para la foto de perfil.' : objRspValidacionFoto.message,
-                                          toastLength: Toast.LENGTH_LONG,
-                                          gravity: ToastGravity.TOP,
-                                          timeInSecForIosWeb: 5,
-                                          backgroundColor: coloresFondoRepuesta,
-                                          textColor: coloresTextoRepuesta,
-                                          fontSize: 16.0
-                                        );
-
-                                        if(!objRspValidacionFoto.succeeded) {
-                                          validandoFoto = false;
-                                          setState(() {});
-                                          return;
-                                        }
-                                        */
-                                        
-                                        rutaNuevaFotoPerfil = croppedFile.path;
-
-                                        varObjetoProspectoFunc!.imagenPerfil = objFotoPerfilNueva;
-                                        varObjProspecto!.imagenPerfil = objFotoPerfilNueva;
-                                        
-                                        setState(() {});
-                                      }
-                                    }
-                                  } catch(_) {
-                                    
-                                  }
-                                  */
-
-                                  context.push(Rutas().rutaDatosFotoOnBoarding);
-                                },
-                                child: Image.asset(
-                                      'assets/images/btnAgregarFotoPerfil.png',
-                                      height: sizeFrmDatosPers.height * 0.35,
-                                    )
-                                    
-                                /*
-                                AvatarGlow(
-                                  animate: true,
-                                  repeat: true,
-                                  showTwoGlows: false,
-                                  glowColor: objColorsApp.naranjaIntenso,
-                                  endRadius: sizeFrmDatosPers.width * 0.16,
-                                  child: !validandoFoto ? 
-                                    Image.asset(
-                                      'assets/btnAgregarFotoPerfil.png',
-                                      height: sizeFrmDatosPers.height * 0.35,
-                                    )
-                                    :
-                                    SpinKitFadingCircle(
-                                      size: 35,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        return DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            color: index.isEven
-                                              ? Colors.black12
-                                              : Colors.white,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                ),
-                                */
-                              ),
-                            ),
-          
-                            if(rutaNuevaFotoPerfil != '')
-                            Container(
-                              height: sizeFrmDatosPers.height * 0.165,
-                              width: sizeFrmDatosPers.width * 0.33,
-                              decoration: !validandoFoto ? 
-                              BoxDecoration(
-                                image: DecorationImage(
-                                  image: FileImage(File(rutaNuevaFotoPerfil)),
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.circular(sizeFrmDatosPers.width * 0.2),
-                                border: Border.all(
-                                  width: 3,
-                                  color: objColorsApp.naranjaIntenso,
-                                  style: BorderStyle.solid,
-                                ),
-                              )
-                              :
-                              BoxDecoration(
-                                borderRadius: BorderRadius.circular(sizeFrmDatosPers.width * 0.2),
-                                border: Border.all(
-                                  width: 3,
-                                  color: objColorsApp.naranjaIntenso,
-                                  style: BorderStyle.solid,
-                                ),
-                              ),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
-
-                                  try {
-                                    if (pickedFile != null) {
-                                      final croppedFile = await ImageCropper().cropImage(                                        
-                                        sourcePath: pickedFile.path,
-                                        compressFormat: ImageCompressFormat.png,
-                                        compressQuality: 100,
-                                        uiSettings: [
-                                          AndroidUiSettings(
-                                            hideBottomControls: true,
-                                            toolbarTitle: 'Recortando',
-                                            toolbarColor: Colors.deepOrange,
-                                            toolbarWidgetColor: Colors.white,
-                                            initAspectRatio: CropAspectRatioPreset.square,
-                                            lockAspectRatio: false
-                                          ),
-                                          IOSUiSettings(
-                                            title: 'Recortando',
-                                          ),
-                                          //ignore: use_build_context_synchronously
-                                        ],
-                                      );
-                                      if (croppedFile != null) {
-                                        final bytes = File(croppedFile.path).readAsBytesSync();
-                                        String img64 = base64Encode(bytes);
-
-                                        FotoPerfilModel objFotoPerfilNueva = FotoPerfilModel(
-                                          base64: img64,
-                                          extension: 'png',
-                                          nombre: 'foto_perfil'
-                                        );
-
-                                        validandoFoto = true;
-
-                                        setState(() {});
-                                        /*
-
-                                        ClientTypeResponse objRspValidacionFoto = await UserFormService().verificacionFotoPerfil(null,objFotoPerfilNueva);
-
-                                        if(objRspValidacionFoto.succeeded) {
-                                          coloresTextoRepuesta = Colors.white;
-                                          coloresFondoRepuesta = Colors.green;
-                                        } else {
-                                          coloresTextoRepuesta = Colors.white;
-                                          coloresFondoRepuesta = Colors.red;
-                                        }
-
-                                        Fluttertoast.showToast(
-                                          msg: !objRspValidacionFoto.succeeded ? 'Debe colocar su rostro para la foto de perfil.' : objRspValidacionFoto.message,
-                                          toastLength: Toast.LENGTH_LONG,
-                                          gravity: ToastGravity.TOP,
-                                          timeInSecForIosWeb: 5,
-                                          backgroundColor: coloresFondoRepuesta,
-                                          textColor: coloresTextoRepuesta,
-                                          fontSize: 16.0
-                                        );
-
-                                        if(!objRspValidacionFoto.succeeded) {
-                                          validandoFoto = false;
-                                          setState(() {});
-                                          return;
-                                        }
-                                        */
-                                        
-                                        rutaNuevaFotoPerfil = croppedFile.path;
-
-                                        varObjetoProspectoFunc!.imagenPerfil = objFotoPerfilNueva;
-                                        varObjProspecto!.imagenPerfil = objFotoPerfilNueva;
-                                        validandoFoto = false;
-                                        setState(() {});
-                                      }
-                                    }
-                                  } catch(_) {
-                                    
-                                  }
-                                },
-                                child: validandoFoto ? SpinKitFadingCircle(
-                                  size: 35,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        color: index.isEven
-                                          ? Colors.black12
-                                          : Colors.white,
-                                      ),
-                                    );
-                                  },
-                                )
-                                :
-                                null
-                              )
-                            ),
-
-                            Container(
-                              color: Colors.transparent,
-                              width: sizeFrmDatosPers.width * 0.85,
-                              height: sizeFrmDatosPers.height * 0.05,
-                              child: Center(
-                                child: AutoSizeText(
-                                  'Cuéntanos de ti...',
-                                  style: TextStyle(
-                                    color: objColorsApp.naranjaIntenso,
-                                    fontFamily: objFuentesDatPers.fuenteMonserate
-                                  ),
-                                  maxLines: 1,
-                                  presetFontSizes: const [20,18,16,14,12,10],
-                                ),
-                              ),
-                            ),
-
-                            SizedBox(height: sizeFrmDatosPers.height * 0.04,),
-
-                            Container(
-                              color: Colors.transparent,
-                              width: sizeFrmDatosPers.width * 0.85,
+                              width: sizeFrmDatosPers.width,
                               height: sizeFrmDatosPers.height * 0.1,
-                              alignment: Alignment.center,
-                              child: formItemsDesign(
-                                Text(
-                                  'Nací el ',
-                                  style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
-                                ),
-                                TextButton(
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: const BorderSide(color: Colors.white)))
-                                  ),
-                                  onPressed: () async {
-                                    initializeDateFormatting('es');
-                                    DateTime fechaActual = DateTime.now();
-                                    int anioActual = fechaActual.year;
-                                    int anioValido = anioActual - 18;
-                                    DateTime? varSelectedDate = await showDatePicker(
-                                      cancelText: 'Cancelar',
-                                      confirmText: 'Ok',
-                                      fieldLabelText: 'Mes/Día/Año',
-                                      helpText: '',
-                                      initialEntryMode: DatePickerEntryMode.calendarOnly,
-                                      errorFormatText: 'Formato inválido',
-                                      context: context,
-                                      initialDate: DateTime(1940),
-                                      firstDate: DateTime(1940),
-                                      lastDate: DateTime(anioValido + 1),
-                                      builder: (context, child) {
-                                        return Theme(
-                                          data: Theme.of(context).copyWith(colorScheme: ColorScheme.light(primary: objColorsApp.naranjaIntenso, onPrimary: Colors.white), textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(backgroundColor: Colors.white))),
-                                          child: child!,
-                                        );
-                                      },
-                                    );
-
-                                    if (varSelectedDate != null) {
-                                      varObjetoProspectoFunc!.fechaNacDate = varSelectedDate;
-                                      setState(() {
-                                        varObjetoProspectoFunc!.fechaNacimiento = DateFormat('dd-MM-yyyy', 'es').format(varSelectedDate);
-                                      });
-                                    }
-                                  },
-                                  child: const Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      Text(
-                                        '',
-                                        //'varObjetoProspectoFunc!.fechaNacimiento',
-                                        style: TextStyle(color: Colors.white, fontSize: 15),
-                                      ),
-                                      Icon(
-                                        Icons.calendar_month_outlined,
+                              alignment: Alignment.bottomCenter,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  MaterialButton(
+                                    shape: const CircleBorder(),
+                                    disabledColor: Colors.white,
+                                    elevation: 0,
+                                    color: Colors.transparent,
+                                    child: Container(
+                                      color: Colors.transparent,
+                                      child: const Icon(
+                                        Icons.arrow_back_ios,
                                         color: Colors.white,
                                         size: 30,
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                1,
-                                null),
-
-                            ),
-
-                            SizedBox(height: sizeFrmDatosPers.height * 0.04,),
-
-                            Container(
-                              color: Colors.transparent,
-                              width: sizeFrmDatosPers.width * 0.85,
-                              height: sizeFrmDatosPers.height * 0.11,
-                              child: formItemsDesign(
-                                Text('Mi género es ',style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),),
-                                DropdownButtonFormField<String>(
-                                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                  decoration: InputDecoration(
-                                    enabledBorder: const OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                      borderSide: BorderSide(color: Colors.white,),
                                     ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: const BorderSide(color: Colors.white,),
-                                    ),
-                                    labelStyle: const TextStyle(color: Colors.grey),
-                                  ),
-                                    //value: varObjetoProspectoFunc!.genero == '' ? 'S' : varObjetoProspectoFunc!.genero,
-                                    dropdownColor: Colors.grey,
-                                    style: const TextStyle(color: Colors.white),
-                                    items: const [
-                                      DropdownMenuItem(value: 'S', child: Text('-- Seleccione --', style: TextStyle(color: Colors.white, fontSize: 13))),
-                                      DropdownMenuItem(
-                                          value: 'M',
-                                          child: Text(
-                                            'Masculino',
-                                            style: TextStyle(color: Colors.white, fontSize: 13),
-                                          )),
-                                      DropdownMenuItem(value: 'F', child: Text('Femenino', style: TextStyle(color: Colors.white, fontSize: 13))),
-                                    ],
-                                    onChanged: (value) {
-                                      varObjetoProspectoFunc!.genero = value.toString();
-                                    },
-                                  ),
-                                  2,
-                                  null
-                                ),
-                            ),
-                            
-                            SizedBox(height: sizeFrmDatosPers.height * 0.04,),
-
-                            Container(
-                              color: Colors.transparent,
-                              width: sizeFrmDatosPers.width * 0.85,
-                              height: sizeFrmDatosPers.height * 0.13,
-                              child: formItemsDesign(
-                                Text('Y vivo en ',style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),),
-                                TextFormField(
-                                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(regexToRemoveEmoji))],
-                                  //initialValue: varObjetoProspectoFunc!.direccion,
-                                  onChanged: (value) async
-                                  {
-                                    if(value.isNotEmpty) {
-
-                                      //clienteForm.varDireccion = value;
-                                      varObjetoProspectoFunc!.direccion = value;
-                                      direccionProspecto = value;
-
-                                      final direccionBusca = BlocProvider.of<SuscripcionBloc>(context);
-                                      direccionBusca.setDireccionUsuario(value);
-/*
-                                      final direccionBuscada = BlocProvider.of<SearchBloc>(context);
-                                      direccionBuscada.getPlacesByQuery(null, stateSuscripcion.direccionUser, '', stateSuscripcion.direccionUser);
-                                    */
+                                    onPressed: () {
+                                      context.pop();
                                     }
-                                  },
-                                  style: const TextStyle(color: Colors.white),
-                                  maxLines: 2,
-                                  maxLength: 300,
-                                  decoration: InputDecorations.authInputDecoration(
-                                    esEdicion: false,
-                                    varEsContrasenia: false,
-                                    colorBordes: Colors.white,
-                                    colorTexto: Colors.white,
-                                    varTamanioIcono: 35,
-                                    hintText: '',
-                                    labelText: '',
-                                    varOnPress: () {}
                                   ),
-                                ),
-                              3,
-                              null
-                            ),
-                                
-                          ),
-
-                                  /*                                              
-                            //Ubicación
-                            Container(
-                              color: Colors.transparent,
-                              width: sizeFrmDatosPers.width * 0.84,
-                              height: sizeFrmDatosPers.height * 0.11,
-                              alignment: Alignment.center,
-                              child: formItemsDesign(
-                                Text(
-                                  'En esta ubicación',
-                                  style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
-                                ),
-                                Container(
-                                  color: Colors.transparent,
-                                  width: sizeFrmDatosPers.width * 0.064,//80,
-                                  height: sizeFrmDatosPers.height * 0.1,//100,
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                    width: sizeFrmDatosPers.width * 0.218,//_widthAnimation!.value,//sizeFrmDatosPers.width * 0.213,//80,
-                                    height: sizeFrmDatosPers.height * 0.095,//100,
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: state.tieneUbicacion ? Colors.orange.withOpacity(.4) : Colors.grey.withOpacity(.4)),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        final gpsBloc = BlocProvider.of<GpsBloc>(context);
-                                        gpsBloc.vuelveUbicacionNormal(true);
-                                      },
-                                      child: Stack(children: <Widget>[
-                                        AnimatedBuilder(
-                                          animation: _positionController!,
-                                          builder: (context, child) => Positioned(
-                                            left: _positionAnimation!.value,
-                                            child: AnimatedBuilder(
-                                              animation: _scale2Controller!,
-                                              builder: (context, child) => Transform.scale(
-                                                scale: _scale2Animation!.value,
-                                                child: Container(
-                                                  width: sizeFrmDatosPers.width * 0.16,
-                                                  height: sizeFrmDatosPers.height * 0.07,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(shape: BoxShape.circle, color: state.tieneUbicacion ? Colors.orange.withOpacity(.4) : Colors.grey.withOpacity(.4)),
-                                                  child: Container(
-                                                    width: sizeFrmDatosPers.width * 0.17,
-                                                    height: sizeFrmDatosPers.height * 0.07,
-                                                    padding: const EdgeInsets.all(10),
-                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: state.tieneUbicacion ? Colors.orange.withOpacity(.4) : Colors.grey.withOpacity(.4)),
-                                                    child: InkWell(
-                                                      child: Stack(children: <Widget>[
-                                                        AnimatedBuilder(
-                                                          animation: _positionController!,
-                                                          builder: (context, child) => Positioned(
-                                                            left: _positionAnimation!.value,
-                                                            child: AnimatedBuilder(
-                                                              animation: _scale2Controller!,
-                                                              builder: (context, child) => 
-                                                                Transform.scale(
-                                                                  scale: _scale2Animation!.value,
-                                                                  child: Container(
-                                                                    color: Colors.transparent,
-                                                                    width: sizeFrmDatosPers.width * 0.1,//40,
-                                                                    height: sizeFrmDatosPers.height * 0.05,//40,
-                                                                    child: Container(
-                                                                      color: Colors.transparent,
-                                                                      child: Image(
-                                                                      image: const AssetImage('assets/IcMapaPaso3.png'),
-                                                                      fit: BoxFit.cover,
-                                                                      height: sizeFrmDatosPers.height * 0.05,//50,
-                                                                    )
-                                                                  )
-                                                                )
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ]),
-                                                    ),
-                                                  ),
-                                                )
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ]),
-                                    ),
-                                  ),
-                                ),
-                                4,
-                                state.tieneUbicacion
-                                ? Container(
+                
+                                  MaterialButton(
+                                    shape: const CircleBorder(),
+                                    disabledColor: Colors.white,
+                                    elevation: 0,
                                     color: Colors.transparent,
-                                    child: const Icon(
-                                      Icons.check,
-                                      color: Colors.green,
-                                      size: 37,
-                                    )
-                                  )
-                                : null,
-                              ),
-                                
-                            ),
-                            
-                            if (state.tieneUbicacion) 
-                            Container(
-                              color: Colors.transparent,
-                              width: sizeFrmDatosPers.width * 0.85,
-                              height: sizeFrmDatosPers.height * 0.1,
-                              child: Row(
-                                children: [
-                                  const SizedBox(
-                                    width: 3,
-                                  ),
-                                  Text(
-                                    'Mi correo electrónico es ',
-                                    style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
-                                  ),
-                                  const SizedBox(
-                                    width: 1,
+                                    child: Container(
+                                      color: Colors.transparent,
+                                      child: const Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 30,
+                                      ),
+                                    ),
+                                    onPressed: () => exit(0),
                                   ),
                                 ],
                               ),
                             ),
-
-                            if (state.tieneUbicacion)
-                            Container(
-                              color: Colors.transparent,
-                              width: sizeFrmDatosPers.width * 0.85,
-                              height: 90,
-                              padding: const EdgeInsets.all(5),
-                              child: TextFormField(
-                                inputFormatters: [FilteringTextInputFormatter.deny(RegExp(regexToRemoveEmoji))],
-                                maxLines: 2,
-                                minLines: 1,
-                                //initialValue: varObjetoProspectoFunc!.email,
-                                onChanged: (value) //=> clienteForm.Correo = value,
-                                {
-                                  //clienteForm.varCorreo = value;
-                                  varObjetoProspectoFunc!.email = value;
+                
+                          SizedBox(height: sizeFrmDatosPers.height * 0.04,),
+                
+                          if(rutaNuevaFotoPerfil == '')
+                          Container(
+                            color: Colors.transparent,
+                            height: sizeFrmDatosPers.height * 0.18,
+                            width: sizeFrmDatosPers.width * 0.33,
+                            child: GestureDetector(
+                              onTap: () async {
+                                /*
+                                final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+                
+                                try {
+                                  if (pickedFile != null) {
+                                    final croppedFile = await ImageCropper().cropImage(                                        
+                                      sourcePath: pickedFile.path,
+                                      compressFormat: ImageCompressFormat.png,
+                                      compressQuality: 100,
+                                      uiSettings: [
+                                        AndroidUiSettings(
+                                          hideBottomControls: true,
+                                          toolbarTitle: 'Recortando',
+                                          toolbarColor: Colors.deepOrange,
+                                          toolbarWidgetColor: Colors.white,
+                                          initAspectRatio: CropAspectRatioPreset.square,
+                                          lockAspectRatio: false
+                                        ),
+                                        IOSUiSettings(
+                                          title: 'Recortando',
+                                        ),
+                
+                                      ],
+                                    );
+                                    if (croppedFile != null) {
+                                      final bytes = File(croppedFile.path).readAsBytesSync();
+                                      String img64 = base64Encode(bytes);
+                
+                                      FotoPerfilModel objFotoPerfilNueva = FotoPerfilModel(
+                                        base64: img64,
+                                        extension: 'png',
+                                        nombre: 'foto_perfil'
+                                      );
+                
+                                      validandoFoto = true;
+                
+                                      setState(() {});
+                
+                                      validandoFoto = false;
+                                      
+                                      /*
+                
+                                      ClientTypeResponse objRspValidacionFoto = await UserFormService().verificacionFotoPerfil(null,objFotoPerfilNueva);
+                
+                                      if(objRspValidacionFoto.succeeded) {
+                                        coloresTextoRepuesta = Colors.white;
+                                        coloresFondoRepuesta = Colors.green;
+                                      } else {
+                                        coloresTextoRepuesta = Colors.white;
+                                        coloresFondoRepuesta = Colors.red;
+                                      }
+                
+                                      Fluttertoast.showToast(
+                                        msg: !objRspValidacionFoto.succeeded ? 'Debe colocar su rostro para la foto de perfil.' : objRspValidacionFoto.message,
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.TOP,
+                                        timeInSecForIosWeb: 5,
+                                        backgroundColor: coloresFondoRepuesta,
+                                        textColor: coloresTextoRepuesta,
+                                        fontSize: 16.0
+                                      );
+                
+                                      if(!objRspValidacionFoto.succeeded) {
+                                        validandoFoto = false;
+                                        setState(() {});
+                                        return;
+                                      }
+                                      */
+                                      
+                                      rutaNuevaFotoPerfil = croppedFile.path;
+                
+                                      varObjetoProspectoFunc!.imagenPerfil = objFotoPerfilNueva;
+                                      varObjProspecto!.imagenPerfil = objFotoPerfilNueva;
+                                      
+                                      setState(() {});
+                                    }
+                                  }
+                                } catch(_) {
+                                  
+                                }
+                                */
+                
+                                context.push(Rutas().rutaDatosFotoOnBoarding);
+                              },
+                              child: Image.asset(
+                                    'assets/images/btnAgregarFotoPerfil.png',
+                                    height: sizeFrmDatosPers.height * 0.35,
+                                  )
+                                  
+                              /*
+                              AvatarGlow(
+                                animate: true,
+                                repeat: true,
+                                showTwoGlows: false,
+                                glowColor: objColorsApp.naranjaIntenso,
+                                endRadius: sizeFrmDatosPers.width * 0.16,
+                                child: !validandoFoto ? 
+                                  Image.asset(
+                                    'assets/btnAgregarFotoPerfil.png',
+                                    height: sizeFrmDatosPers.height * 0.35,
+                                  )
+                                  :
+                                  SpinKitFadingCircle(
+                                    size: 35,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          color: index.isEven
+                                            ? Colors.black12
+                                            : Colors.white,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                              ),
+                              */
+                            ),
+                          ),
+                          
+                          if(rutaNuevaFotoPerfil != '')
+                          Container(
+                            height: sizeFrmDatosPers.height * 0.165,
+                            width: sizeFrmDatosPers.width * 0.33,
+                            decoration: !validandoFoto ? 
+                            BoxDecoration(
+                              image: DecorationImage(
+                                image: FileImage(File(rutaNuevaFotoPerfil)),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(sizeFrmDatosPers.width * 0.2),
+                              border: Border.all(
+                                width: 3,
+                                color: objColorsApp.naranjaIntenso,
+                                style: BorderStyle.solid,
+                              ),
+                            )
+                            :
+                            BoxDecoration(
+                              borderRadius: BorderRadius.circular(sizeFrmDatosPers.width * 0.2),
+                              border: Border.all(
+                                width: 3,
+                                color: objColorsApp.naranjaIntenso,
+                                style: BorderStyle.solid,
+                              ),
+                            ),
+                            child: GestureDetector(
+                              onTap: () async {
+                                final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+                
+                                try {
+                                  if (pickedFile != null) {
+                                    final croppedFile = await ImageCropper().cropImage(                                        
+                                      sourcePath: pickedFile.path,
+                                      compressFormat: ImageCompressFormat.png,
+                                      compressQuality: 100,
+                                      uiSettings: [
+                                        AndroidUiSettings(
+                                          hideBottomControls: true,
+                                          toolbarTitle: 'Recortando',
+                                          toolbarColor: Colors.deepOrange,
+                                          toolbarWidgetColor: Colors.white,
+                                          initAspectRatio: CropAspectRatioPreset.square,
+                                          lockAspectRatio: false
+                                        ),
+                                        IOSUiSettings(
+                                          title: 'Recortando',
+                                        ),
+                                        //ignore: use_build_context_synchronously
+                                      ],
+                                    );
+                                    if (croppedFile != null) {
+                                      final bytes = File(croppedFile.path).readAsBytesSync();
+                                      String img64 = base64Encode(bytes);
+                
+                                      FotoPerfilModel objFotoPerfilNueva = FotoPerfilModel(
+                                        base64: img64,
+                                        extension: 'png',
+                                        nombre: 'foto_perfil'
+                                      );
+                
+                                      validandoFoto = true;
+                
+                                      setState(() {});
+                                      /*
+                
+                                      ClientTypeResponse objRspValidacionFoto = await UserFormService().verificacionFotoPerfil(null,objFotoPerfilNueva);
+                
+                                      if(objRspValidacionFoto.succeeded) {
+                                        coloresTextoRepuesta = Colors.white;
+                                        coloresFondoRepuesta = Colors.green;
+                                      } else {
+                                        coloresTextoRepuesta = Colors.white;
+                                        coloresFondoRepuesta = Colors.red;
+                                      }
+                
+                                      Fluttertoast.showToast(
+                                        msg: !objRspValidacionFoto.succeeded ? 'Debe colocar su rostro para la foto de perfil.' : objRspValidacionFoto.message,
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.TOP,
+                                        timeInSecForIosWeb: 5,
+                                        backgroundColor: coloresFondoRepuesta,
+                                        textColor: coloresTextoRepuesta,
+                                        fontSize: 16.0
+                                      );
+                
+                                      if(!objRspValidacionFoto.succeeded) {
+                                        validandoFoto = false;
+                                        setState(() {});
+                                        return;
+                                      }
+                                      */
+                                      
+                                      rutaNuevaFotoPerfil = croppedFile.path;
+                
+                                      varObjetoProspectoFunc!.imagenPerfil = objFotoPerfilNueva;
+                                      varObjProspecto!.imagenPerfil = objFotoPerfilNueva;
+                                      validandoFoto = false;
+                                      setState(() {});
+                                    }
+                                  }
+                                } catch(_) {
+                                  
+                                }
+                              },
+                              child: validandoFoto ? SpinKitFadingCircle(
+                                size: 35,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: index.isEven
+                                        ? Colors.black12
+                                        : Colors.white,
+                                    ),
+                                  );
                                 },
-                                autocorrect: false,
-                                keyboardType: TextInputType.emailAddress, //tipo de imput -> correo
-                                style: TextStyle(fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+                              )
+                              :
+                              null
+                            )
+                          ),
+                
+                          Container(
+                            color: Colors.transparent,
+                            width: sizeFrmDatosPers.width * 0.85,
+                            height: sizeFrmDatosPers.height * 0.05,
+                            child: Center(
+                              child: AutoSizeText(
+                                'Cuéntanos de ti...',
+                                style: TextStyle(
+                                  color: objColorsApp.naranjaIntenso,
+                                  fontFamily: objFuentesDatPers.fuenteMonserate
+                                ),
+                                maxLines: 1,
+                                presetFontSizes: const [20,18,16,14,12,10],
+                              ),
+                            ),
+                          ),
+                
+                          SizedBox(height: sizeFrmDatosPers.height * 0.04,),
+                
+                          Container(
+                            color: Colors.transparent,
+                            width: sizeFrmDatosPers.width * 0.85,
+                            height: sizeFrmDatosPers.height * 0.1,
+                            alignment: Alignment.center,
+                            child: formItemsDesign(
+                              Text(
+                                'Nací el ',
+                                style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
+                              ),
+                              TextButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: const BorderSide(color: Colors.white)))
+                                ),
+                                onPressed: () async {
+                                  initializeDateFormatting('es');
+                                  DateTime fechaActual = DateTime.now();
+                                  int anioActual = fechaActual.year;
+                                  int anioValido = anioActual - 18;
+                                  DateTime? varSelectedDate = await showDatePicker(
+                                    cancelText: 'Cancelar',
+                                    confirmText: 'Ok',
+                                    fieldLabelText: 'Mes/Día/Año',
+                                    helpText: '',
+                                    initialEntryMode: DatePickerEntryMode.calendarOnly,
+                                    errorFormatText: 'Formato inválido',
+                                    context: context,
+                                    initialDate: DateTime(1940),
+                                    firstDate: DateTime(1940),
+                                    lastDate: DateTime(anioValido + 1),
+                                    builder: (context, child) {
+                                      return Theme(
+                                        data: Theme.of(context).copyWith(colorScheme: ColorScheme.light(primary: objColorsApp.naranjaIntenso, onPrimary: Colors.white), textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(backgroundColor: Colors.white))),
+                                        child: child!,
+                                      );
+                                    },
+                                  );
+                
+                                  if (varSelectedDate != null) {
+                                    objPrspValido.fechaNacDate = varSelectedDate;
+                                    setState(() {
+                                      objPrspValido.fechaNacimiento = DateFormat('dd-MM-yyyy', 'es').format(varSelectedDate);
+                                    });
+                                  }
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      '',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    Text(
+                                      objPrspValido.fechaNacimiento,
+                                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                                    ),
+                                    const Icon(
+                                      Icons.calendar_month_outlined,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              1,
+                              null
+                            ),
+                
+                          ),
+                
+                          SizedBox(height: sizeFrmDatosPers.height * 0.04,),
+                
+                          Container(
+                            color: Colors.transparent,
+                            width: sizeFrmDatosPers.width * 0.85,
+                            height: sizeFrmDatosPers.height * 0.11,
+                            child: formItemsDesign(
+                              Text('Mi género es ',style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),),
+                              DropdownButtonFormField<String>(
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                    borderSide: BorderSide(color: Colors.white,),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(color: Colors.white,),
+                                  ),
+                                  labelStyle: const TextStyle(color: Colors.grey),
+                                ),
+                                value: objPrspValido.genero == '' ? 'S' : objPrspValido.genero,
+                                dropdownColor: Colors.grey,
+                                style: const TextStyle(color: Colors.white),
+                                items: const [
+                                  DropdownMenuItem(value: 'S', child: Text('-- Seleccione --', style: TextStyle(color: Colors.white, fontSize: 13))),
+                                  DropdownMenuItem(
+                                      value: 'M',
+                                      child: Text(
+                                        'Masculino',
+                                        style: TextStyle(color: Colors.white, fontSize: 13),
+                                      )),
+                                  DropdownMenuItem(value: 'F', child: Text('Femenino', style: TextStyle(color: Colors.white, fontSize: 13))),
+                                ],
+                                onChanged: (value) {
+                                  objPrspValido.genero = value.toString();
+                                },
+                                validator: (value) {
+                                  if(value == null || value.isEmpty || value == 'S') {
+                                    return 'Ingrese su género.';
+                                  }
+                
+                                return null;
+                                },
+                              ),
+                              2,
+                              null
+                            ),
+                          ),
+                          
+                          SizedBox(height: sizeFrmDatosPers.height * 0.04,),
+                
+                          Container(
+                            color: Colors.transparent,
+                            width: sizeFrmDatosPers.width * 0.85,
+                            height: sizeFrmDatosPers.height * 0.13,
+                            child: formItemsDesign(
+                              Text('Y vivo en ',style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),),
+                              TextFormField(
+                                inputFormatters: [FilteringTextInputFormatter.deny(RegExp(regexToRemoveEmoji))],
+                                //initialValue: objPrspValido.direccion,
+                                onChanged: (value) async
+                                {
+                                  if(value.isNotEmpty) {
+                
+                                    objPrspValido.direccion = value;
+                                    direccionProspecto = value;
+                
+                                    final direccionBusca = BlocProvider.of<SuscripcionBloc>(context);
+                                    direccionBusca.setDireccionUsuario(value);
+                
+                                  }
+                                },
+                                style: const TextStyle(color: Colors.white),
+                                maxLines: 2,
+                                maxLength: 150,
                                 decoration: InputDecorations.authInputDecoration(
                                   esEdicion: false,
-                                  varTamanioIcono: 20,
-                                  colorBordes: Colors.white,
                                   varEsContrasenia: false,
-                                  hintText: '*****@riasem.com.ec',
+                                  colorBordes: Colors.white,
+                                  colorTexto: Colors.white,
+                                  varTamanioIcono: 35,
+                                  hintText: '',
                                   labelText: '',
                                   varOnPress: () {}
                                 ),
                                 validator: (value) {
-                                  String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                                  RegExp regExp = RegExp(pattern);
-                                  return regExp.hasMatch(value ?? '')
-                                    ? null
-                                    : 'Correo invalido';
-                                },
-                              ),
-                            ),
-                            
-                            if (state.tieneUbicacion)
-                              const SizedBox(
-                                height: 4,
-                              ),
-                                          
-                            if (state.tieneUbicacion)
-                              Container(
-                                          width: _widthAnimation!.value,
-                                          height: 80,
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(50),
-                                            color: Colors.orange.withOpacity(.4)
-                                          ),
-                                          child: InkWell(
-                                            onTap: () async {
-                                              
-                                              if (varObjetoProspectoFunc != null && varObjetoProspectoFunc!.fechaNacimiento.isNotEmpty) {
-                                                _scaleController!.forward();
-                                              } else {
-                                                //ignore: use_build_context_synchronously
-                                                /*
-                                                CustomBgAlertBox(
-                                                  context: context,
-                                                  title: 'Error al registrar datos',
-                                                  infoMessage: 'Debes ingresar información correcta.',
-                                                  buttonColor: Colors.red,
-                                                  buttonText: 'Cerrar',
-                                                  icon: Icons.cancel,
-                                                  titleTextColor: Colors.red[400],
-                                                );
-                                                */
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                    const AlertDialog(content: Text('Debes ingresar información correcta.')
-                                                  )
-                                                );
-                                              }
-                                            },
-                                            child: Stack(
-                                              children: <Widget>[
-                                                Container(
-                                                  width: 60,
-                                                  height: 60,
-                                                  decoration: BoxDecoration(shape: BoxShape.circle, color: objColorsApp.naranjaIntenso),
-                                                  child: const Icon(
-                                                    Icons.arrow_forward_ios,
-                                                    color: Colors.white,
-                                                  )
-                                                )
-                                                          
-                                              ]
-                                            ),
-                                          ),
-                                        ),
-                                        
-                            
-                            const SizedBox(
-                              height: 18,
-                            ),
-                            */
-
-                            Container(
-                              width: _widthAnimation!.value,
-                              height: 80,
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: Colors.orange.withOpacity(.4)
-                              ),
-                              child: InkWell(
-                                onTap: () async {
-                                  /*
-                                  if (await clienteForm.llenaData(varObjetoProspectoFunc!)) {
-                                    _scaleController!.forward();
-                                  } else {
-                                    //ignore: use_build_context_synchronously
-                                    CustomBgAlertBox(
-                                      context: context,
-                                      title: 'Error al registrar datos',
-                                      infoMessage: 'Debes ingresar información correcta.',
-                                      buttonColor: Colors.red,
-                                      buttonText: 'Cerrar',
-                                      icon: Icons.cancel,
-                                      titleTextColor: Colors.red[400],
-                                    );
+                                  
+                                  if(value == null || value.isEmpty) {
+                                    return 'Ingrese su dirección';
                                   }
-                                  */
+                
+                                  return null;
                                 },
-                                child: Stack(
-                                    children: <Widget>[
+                              ),
+                            3,
+                            null
+                          ),
+                              
+                        ),
+                
+                                /*                                              
+                          //Ubicación
+                          Container(
+                            color: Colors.transparent,
+                            width: sizeFrmDatosPers.width * 0.84,
+                            height: sizeFrmDatosPers.height * 0.11,
+                            alignment: Alignment.center,
+                            child: formItemsDesign(
+                              Text(
+                                'En esta ubicación',
+                                style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
+                              ),
+                              Container(
+                                color: Colors.transparent,
+                                width: sizeFrmDatosPers.width * 0.064,//80,
+                                height: sizeFrmDatosPers.height * 0.1,//100,
+                                alignment: Alignment.center,
+                                child: Container(
+                                  width: sizeFrmDatosPers.width * 0.218,//_widthAnimation!.value,//sizeFrmDatosPers.width * 0.213,//80,
+                                  height: sizeFrmDatosPers.height * 0.095,//100,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: state.tieneUbicacion ? Colors.orange.withOpacity(.4) : Colors.grey.withOpacity(.4)),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      final gpsBloc = BlocProvider.of<GpsBloc>(context);
+                                      gpsBloc.vuelveUbicacionNormal(true);
+                                    },
+                                    child: Stack(children: <Widget>[
                                       AnimatedBuilder(
                                         animation: _positionController!,
                                         builder: (context, child) => Positioned(
@@ -965,24 +812,275 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                             builder: (context, child) => Transform.scale(
                                               scale: _scale2Animation!.value,
                                               child: Container(
-                                                  width: 60,
-                                                  height: 60,
-                                                  decoration: BoxDecoration(shape: BoxShape.circle, color: objColorsApp.naranjaIntenso),
-                                                  child: const Icon(
-                                                    Icons.arrow_forward_ios,
-                                                    color: Colors.white,
-                                                  )
-                                                )
-                                              ),
+                                                width: sizeFrmDatosPers.width * 0.16,
+                                                height: sizeFrmDatosPers.height * 0.07,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(shape: BoxShape.circle, color: state.tieneUbicacion ? Colors.orange.withOpacity(.4) : Colors.grey.withOpacity(.4)),
+                                                child: Container(
+                                                  width: sizeFrmDatosPers.width * 0.17,
+                                                  height: sizeFrmDatosPers.height * 0.07,
+                                                  padding: const EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: state.tieneUbicacion ? Colors.orange.withOpacity(.4) : Colors.grey.withOpacity(.4)),
+                                                  child: InkWell(
+                                                    child: Stack(children: <Widget>[
+                                                      AnimatedBuilder(
+                                                        animation: _positionController!,
+                                                        builder: (context, child) => Positioned(
+                                                          left: _positionAnimation!.value,
+                                                          child: AnimatedBuilder(
+                                                            animation: _scale2Controller!,
+                                                            builder: (context, child) => 
+                                                              Transform.scale(
+                                                                scale: _scale2Animation!.value,
+                                                                child: Container(
+                                                                  color: Colors.transparent,
+                                                                  width: sizeFrmDatosPers.width * 0.1,//40,
+                                                                  height: sizeFrmDatosPers.height * 0.05,//40,
+                                                                  child: Container(
+                                                                    color: Colors.transparent,
+                                                                    child: Image(
+                                                                    image: const AssetImage('assets/IcMapaPaso3.png'),
+                                                                    fit: BoxFit.cover,
+                                                                    height: sizeFrmDatosPers.height * 0.05,//50,
+                                                                  )
+                                                                )
+                                                              )
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                                  ),
+                                                ),
+                                              )
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ]),
+                                  ),
+                                ),
+                              ),
+                              4,
+                              state.tieneUbicacion
+                              ? Container(
+                                  color: Colors.transparent,
+                                  child: const Icon(
+                                    Icons.check,
+                                    color: Colors.green,
+                                    size: 37,
+                                  )
+                                )
+                              : null,
+                            ),
+                              
+                          ),
+                          
+                          if (state.tieneUbicacion) 
+                          Container(
+                            color: Colors.transparent,
+                            width: sizeFrmDatosPers.width * 0.85,
+                            height: sizeFrmDatosPers.height * 0.1,
+                            child: Row(
+                              children: [
+                                const SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  'Mi correo electrónico es ',
+                                  style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
+                                ),
+                                const SizedBox(
+                                  width: 1,
+                                ),
+                              ],
+                            ),
+                          ),
+                
+                          if (state.tieneUbicacion)
+                          Container(
+                            color: Colors.transparent,
+                            width: sizeFrmDatosPers.width * 0.85,
+                            height: 90,
+                            padding: const EdgeInsets.all(5),
+                            child: TextFormField(
+                              inputFormatters: [FilteringTextInputFormatter.deny(RegExp(regexToRemoveEmoji))],
+                              maxLines: 2,
+                              minLines: 1,
+                              //initialValue: varObjetoProspectoFunc!.email,
+                              onChanged: (value) //=> clienteForm.Correo = value,
+                              {
+                                //clienteForm.varCorreo = value;
+                                varObjetoProspectoFunc!.email = value;
+                              },
+                              autocorrect: false,
+                              keyboardType: TextInputType.emailAddress, //tipo de imput -> correo
+                              style: TextStyle(fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+                              decoration: InputDecorations.authInputDecoration(
+                                esEdicion: false,
+                                varTamanioIcono: 20,
+                                colorBordes: Colors.white,
+                                varEsContrasenia: false,
+                                hintText: '*****@riasem.com.ec',
+                                labelText: '',
+                                varOnPress: () {}
+                              ),
+                              validator: (value) {
+                                String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                                RegExp regExp = RegExp(pattern);
+                                return regExp.hasMatch(value ?? '')
+                                  ? null
+                                  : 'Correo invalido';
+                              },
+                            ),
+                          ),
+                          
+                          if (state.tieneUbicacion)
+                            const SizedBox(
+                              height: 4,
+                            ),
+                                        
+                          if (state.tieneUbicacion)
+                            Container(
+                                        width: _widthAnimation!.value,
+                                        height: 80,
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          color: Colors.orange.withOpacity(.4)
+                                        ),
+                                        child: InkWell(
+                                          onTap: () async {
+                                            
+                                            if (varObjetoProspectoFunc != null && varObjetoProspectoFunc!.fechaNacimiento.isNotEmpty) {
+                                              _scaleController!.forward();
+                                            } else {
+                                              //ignore: use_build_context_synchronously
+                                              /*
+                                              CustomBgAlertBox(
+                                                context: context,
+                                                title: 'Error al registrar datos',
+                                                infoMessage: 'Debes ingresar información correcta.',
+                                                buttonColor: Colors.red,
+                                                buttonText: 'Cerrar',
+                                                icon: Icons.cancel,
+                                                titleTextColor: Colors.red[400],
+                                              );
+                                              */
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                  const AlertDialog(content: Text('Debes ingresar información correcta.')
+                                                )
+                                              );
+                                            }
+                                          },
+                                          child: Stack(
+                                            children: <Widget>[
+                                              Container(
+                                                width: 60,
+                                                height: 60,
+                                                decoration: BoxDecoration(shape: BoxShape.circle, color: objColorsApp.naranjaIntenso),
+                                                child: const Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: Colors.white,
+                                                )
+                                              )
+                                                        
+                                            ]
+                                          ),
+                                        ),
+                                      ),
+                                      
+                          
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          */
+                
+                          Container(
+                            width: _widthAnimation!.value,
+                            height: 80,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.orange.withOpacity(.4)
+                            ),
+                            child: InkWell(
+                              onTap: () async {
+                
+                                if(!_frmState.currentState!.validate()) {
+                                  return;
+                                }
+                
+                                String msmFinal = '';
+                                
+                                bool rsp = await ProspectoTypeService().llenaData(objPrspValido);
+                
+                                if(rsp) 
+                                {
+                                  //await ProspectoTypeService().registraProspecto(objPrspValido);
+                                  msmFinal = 'Registro de datos correcto !!';
+                                }
+                                else {
+                                  msmFinal = 'Falta ingresar datos !!';
+                                }
+                
+                                if(rsp) {
+                                  //ignore: use_build_context_synchronously
+                                  context.pop();
+                                }                                
+                
+
+                                showDialog(
+                                  barrierDismissible: false,
+                                  //ignore: use_build_context_synchronously
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DialogContentEksWidget(
+                                      title: 'Atención',
+                                      textPrimaryButton: 'Aceptar',
+                                      colorIcon: Colors.red,
+                                      message: msmFinal,
+                                      numMessageLines: 1,
+                                      onPressedPrimaryButton: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      hasTwoOptions: false,
+                                    );
+                                  },
+                                );
+                                
+                              },
+                              child: Stack(
+                                children: <Widget>[
+                                  AnimatedBuilder(
+                                    animation: _positionController!,
+                                    builder: (context, child) => Positioned(
+                                      left: _positionAnimation!.value,
+                                      child: AnimatedBuilder(
+                                        animation: _scale2Controller!,
+                                        builder: (context, child) => Transform.scale(
+                                          scale: _scale2Animation!.value,
+                                          child: Container(
+                                              width: 60,
+                                              height: 60,
+                                              decoration: BoxDecoration(shape: BoxShape.circle, color: objColorsApp.naranjaIntenso),
+                                              child: const Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Colors.white,
+                                              )
+                                            )
+                                          ),
+                                      ),
+                                    ),
+                                  ),
+                                ]
                               ),
                             ),
-                            
-                          ],
-                        ),
+                          ),
+                          
+                        ],
                       ),
                     ),
                   ),

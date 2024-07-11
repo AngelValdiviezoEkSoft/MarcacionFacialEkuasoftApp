@@ -1,3 +1,5 @@
+export 'package:marcacion_facial_ekuasoft_app/infraestructure/services/prospecto_service.dart';
+
 export 'package:marcacion_facial_ekuasoft_app/infraestructure/services/traffic_service.dart';
 
 export 'package:marcacion_facial_ekuasoft_app/infraestructure/services/places_interceptor.dart';

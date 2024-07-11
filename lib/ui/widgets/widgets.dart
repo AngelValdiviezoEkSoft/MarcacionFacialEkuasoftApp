@@ -9,3 +9,5 @@ export 'package:marcacion_facial_ekuasoft_app/ui/widgets/main_background_widget.
 export 'package:marcacion_facial_ekuasoft_app/ui/widgets/marcacion_facial/marcacion_facial.dart';
 
 export 'package:marcacion_facial_ekuasoft_app/ui/widgets/maps/maps.dart';
+
+export 'package:marcacion_facial_ekuasoft_app/ui/widgets/alert_dialog/alert_dialog.dart';

@@ -11,6 +11,7 @@ void setupServiceLocator() {
   getIt.registerLazySingleton<MLService>(() => MLService());
   getIt.registerLazySingleton<LocalidadService>(() => LocalidadService());
   getIt.registerLazySingleton<TrafficService>(() => TrafficService());
+  getIt.registerLazySingleton<ProspectoTypeService>(() => ProspectoTypeService());
   //#EndRegion
 
   //#Region Blocs 

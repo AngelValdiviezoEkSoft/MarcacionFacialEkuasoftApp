@@ -97,19 +97,34 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
     Navigator.of(context).pop();
   }
 
+/*
   _reload() {
     if (mounted) setState(() => _isPictureTaken = false);
     _start();
   }
+  */
 
   Future<void> onTap() async {
     await takePicture();
     if (_faceDetectorService.faceDetected) {
       
+      /*
       UserFotoModel? user = await _mlService.predict();
       var bottomSheetController = scaffoldKey.currentState!.showBottomSheet((context) => tomaFotoScreenSheet(user: user));
       bottomSheetController.closed.whenComplete(_reload);
-      
+      */
+
+      //ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+
+      showDialog(
+        //ignore: use_build_context_synchronously
+        context: context,
+        builder: (context) =>
+          const AlertDialog(
+            content: Text('Marcación exitosa !!')
+        )
+      );
     }
   }
 
