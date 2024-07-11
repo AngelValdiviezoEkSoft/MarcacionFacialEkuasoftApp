@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 
 part 'auth_event.dart';
@@ -35,6 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onAppStarted(AppStarted event, Emitter<AuthState> emit) async {
+    
     /*
     final isLicenseSet = await userPreferences.isLicenseSet();
     
@@ -47,8 +49,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthUnauthenticated());
     }
     */
-    //aquí
-    emit(AuthNoInternet());
+    
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    
+    if (!connectivityResult.contains(ConnectivityResult.mobile) && !connectivityResult.contains(ConnectivityResult.wifi)) {
+      emit(AuthNoInternet());
+    }
+    else {
+      emit(AuthAuthenticated());
+    }
+    
   }
 
   void _onSubmitLicenseKey(

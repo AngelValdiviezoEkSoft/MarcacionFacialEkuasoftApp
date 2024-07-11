@@ -134,6 +134,8 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
     Color colorBtn = Colors.transparent;
     bool localizacionValida = false;
 
+    context.read<AuthBloc>().add(AppStarted());
+
     return Scaffold(
       body: BlocBuilder<GenericBloc, GenericState>(
         builder: (context,state) {
@@ -195,6 +197,7 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
                     width: size.width * 0.65,
                     child: GestureDetector(
                       onTap: () {
+                        context.read<AuthBloc>().add(AppStarted());
           
                         if(isMockLocation)
                         {
@@ -222,7 +225,7 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
                           );
                           return;
                         }
-
+                        
                         context.push(Rutas().rutaTomaFoto);
                       },
                       child: TextButtonMarcacion(
@@ -243,8 +246,11 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
                     width: size.width * 0.65,
                     child: GestureDetector(
                       onTap: () {
+                        context.read<AuthBloc>().add(AppStarted());
+
                         final gpsBloc = BlocProvider.of<GpsBloc>(context);
                         gpsBloc.vuelveUbicacionNormal(false);
+
                         context.push(Rutas().rutaDatosPersonalesOnBoarding);
                       },
                       child: TextButtonMarcacion(
