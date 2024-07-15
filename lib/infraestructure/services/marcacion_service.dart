@@ -6,6 +6,8 @@ const storage = FlutterSecureStorage();
 
 class MarcacionService {
 
+  Environments objEnvironments = Environments();
+
   Future<String> registraMarcacion(String marcacion) async {
     String rsp = '';
 

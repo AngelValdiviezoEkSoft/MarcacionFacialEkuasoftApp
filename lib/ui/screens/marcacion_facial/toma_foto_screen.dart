@@ -1,6 +1,7 @@
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marcacion_facial_ekuasoft_app/domain/models/models.dart';
 import 'dart:async';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
@@ -85,11 +86,28 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
       setState(() => _isPictureTaken = true);
     } else {
       showDialog(
+        barrierDismissible: false,
+        //ignore: use_build_context_synchronously
         context: context,
-        builder: (context) =>
-          const AlertDialog(content: Text('No se detecta rostro')
-        )
+        builder: (BuildContext context) {
+          return DialogContentEksWidget(
+            title: 'Atención',
+            textPrimaryButton: 'Aceptar',
+            colorIcon: Colors.red,
+            message: 'No se detecta rostro',
+            numMessageLines: 1,
+            onPressedPrimaryButton: () {
+              //ignore: use_build_context_synchronously
+              context.read<AuthBloc>().add(AppStarted());
+
+              //ignore: use_build_context_synchronously
+              Navigator.of(context).pop();
+            },
+            hasTwoOptions: false,
+          );
+        },
       );
+    
     }
   }
 
@@ -117,6 +135,7 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
       //ignore: use_build_context_synchronously
       Navigator.of(context).pop();
 
+/*
       showDialog(
         //ignore: use_build_context_synchronously
         context: context,
@@ -125,6 +144,31 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
             content: Text('Marcación exitosa !!')
         )
       );
+      */
+
+      showDialog(
+        barrierDismissible: false,
+        //ignore: use_build_context_synchronously
+        context: context,
+        builder: (BuildContext context) {
+          return DialogContentEksWidget(
+            title: 'Atención',
+            textPrimaryButton: 'Aceptar',
+            colorIcon: Colors.blue,
+            message: 'Marcación exitosa !!',
+            numMessageLines: 1,
+            onPressedPrimaryButton: () {
+              //ignore: use_build_context_synchronously
+              context.read<AuthBloc>().add(AppStarted());
+
+              //ignore: use_build_context_synchronously
+              Navigator.of(context).pop();
+            },
+            hasTwoOptions: false,
+          );
+        },
+      );
+    
     }
   }
 

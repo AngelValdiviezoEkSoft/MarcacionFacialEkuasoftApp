@@ -6,8 +6,9 @@ import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 import 'package:no_screenshot/no_screenshot.dart';
 import 'package:provider/provider.dart';
 import 'package:trust_location/trust_location.dart';
+//import 'package:location/location.dart';
 
-bool isMockLocation = false;
+bool isMockLocation = true;
 
 class MarcacionFacial extends StatefulWidget {
 
@@ -29,6 +30,7 @@ class MarcacionFacialState extends State<MarcacionFacial> {
   late FaceDetectorService _mlKitService;
   late CameraService _cameraService;
   bool loading = false;
+  //Location location = Location();
 
   @override
   void initState() {
@@ -37,11 +39,15 @@ class MarcacionFacialState extends State<MarcacionFacial> {
     
     noScreenshot.screenshotOff();
 
-    locationBloc = BlocProvider.of<LocationBloc>(context);
-    locationBloc.startFollowingUser(); 
-
     TrustLocation.start(1);
     getLocation();
+
+    /*
+    if(!isMockLocation) {
+      locationBloc = BlocProvider.of<LocationBloc>(context);
+      locationBloc.startFollowingUser();
+    }
+    */
   }
 
   _initializeServices() async {
@@ -56,6 +62,7 @@ class MarcacionFacialState extends State<MarcacionFacial> {
     setState(() => loading = false);
   }
 
+/*
   Future<void> getLocation() async {
     try {
       TrustLocation.onChange.listen((values) => 
@@ -69,11 +76,44 @@ class MarcacionFacialState extends State<MarcacionFacial> {
       //print('PlatformException $e'); 
     }
   }
+*/
+
+  Future<void> getLocation() async {
+    try {
+      TrustLocation.onChange.listen((values) => setState(() {
+        isMockLocation = values.isMockLocation ?? false;
+
+        if(!isMockLocation) {
+          locationBloc = BlocProvider.of<LocationBloc>(context);
+          locationBloc.startFollowingUser();
+        }
+      }));
+    } on PlatformException catch (_) {
+      //print('PlatformException $e');
+    }
+  }
+
+/*
+  Future<void> getLocation() async {
+    try {
+      LocationData locationData = await location.getLocation();
+      setState(() {
+        isMockLocation = locationData.isMock ?? false;
+      });
+    } catch (e) {
+      setState(() {
+        isMockLocation = false;
+      });
+    }
+  }
+  */
 
   @override
   void dispose() {
     super.dispose();
+    TrustLocation.stop();
     locationBloc.stopFollowingUser();
+    
   }
 
   @override

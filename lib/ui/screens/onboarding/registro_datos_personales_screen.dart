@@ -167,34 +167,34 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
     }
 
     objPrspValido = ProspectoType(
-  alias: '',
-  apellidos: '',
-  area: '',
-  autorizadoPor: '',
-  celular: '',
-  codigoEmpresa: '',
-  departamento: '',
-  email: '',
-  empresa: '',
-  fechaNacDate: DateTime.now(),
-  fechaNacimiento: '',
-  grupoEmpresarial: '',
-  id: '',
-  identificacion: '',
-  imagenPerfil: FotoPerfilModel(
-    base64: '',
-    extension: '',
-    nombre: ''
-  ),
-  latitud: 0,
-  longitud: 0,
-  nombres: '',
-  password: '',
-  tipoCliente: '',
-  tipoIdentificacion: '',
-  direccion: '',
-  genero: ''
-);
+      alias: '',
+      apellidos: '',
+      area: '',
+      autorizadoPor: '',
+      celular: '',
+      codigoEmpresa: '',
+      departamento: '',
+      email: '',
+      empresa: '',
+      fechaNacDate: DateTime.now(),
+      fechaNacimiento: '',
+      grupoEmpresarial: '',
+      id: '',
+      identificacion: '',
+      imagenPerfil: FotoPerfilModel(
+        base64: '',
+        extension: '',
+        nombre: ''
+      ),
+      latitud: 0,
+      longitud: 0,
+      nombres: '',
+      password: '',
+      tipoCliente: '',
+      tipoIdentificacion: '',
+      direccion: '',
+      genero: ''
+    );
  
   }
 
@@ -600,6 +600,51 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                 presetFontSizes: const [20,18,16,14,12,10],
                               ),
                             ),
+                          ),
+                
+                          SizedBox(height: sizeFrmDatosPers.height * 0.04,),
+                
+                          Container(
+                            color: Colors.transparent,
+                            width: sizeFrmDatosPers.width * 0.85,
+                            height: sizeFrmDatosPers.height * 0.1,
+                            alignment: Alignment.center,
+                            child: formItemsDesign(
+                              Text(
+                                'Mis nombres son',
+                                style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
+                              ),
+                                TextFormField(
+                                inputFormatters: [FilteringTextInputFormatter.deny(RegExp(regexToRemoveEmoji))],
+                                //initialValue: objPrspValido.direccion,
+                                
+                                style: const TextStyle(color: Colors.white),
+                                maxLines: 1,
+                                maxLength: 80,
+                                decoration: InputDecorations.authInputDecoration(
+                                  esEdicion: false,
+                                  varEsContrasenia: false,
+                                  colorBordes: Colors.white,
+                                  colorTexto: Colors.white,
+                                  varTamanioIcono: 35,
+                                  hintText: '',
+                                  labelText: '',
+                                  varOnPress: () {}
+                                ),
+                                validator: (value) {
+                                  
+                                  if(value == null || value.isEmpty) {
+                                    return 'Ingrese sus nombres';
+                                  }
+                
+                                  return null;
+                                },
+                              ),
+                            
+                              1,
+                              null
+                            ),
+                
                           ),
                 
                           SizedBox(height: sizeFrmDatosPers.height * 0.04,),
@@ -1080,6 +1125,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                             ),
                           ),
                           
+                          SizedBox(height: sizeFrmDatosPers.height * 0.008,),
                         ],
                       ),
                     ),

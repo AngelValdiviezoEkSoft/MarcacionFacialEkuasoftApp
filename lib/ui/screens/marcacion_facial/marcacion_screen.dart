@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +11,7 @@ import 'package:marcacion_facial_ekuasoft_app/domain/domain.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 
 import 'package:simple_shadow/simple_shadow.dart';
+//import 'package:trust_location/trust_location.dart';
 
 /*
 enum _SupportState {
@@ -35,6 +37,7 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
   @override
   void initState() {
     super.initState();
+
     /*
     auth.isDeviceSupported().then(
           (bool isSupported) => setState(() => _supportState = isSupported
@@ -42,6 +45,7 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
               : _SupportState.unsupported),
         );
         */
+
   }
 
   @override
@@ -122,19 +126,23 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
         fechaCreacion: DateTime.now(),
         id: '1',
         idEmpresa: '1',
-        radio: 0.01,
+        radio: 0.02,
         usuarioCreacion: '',
         usuarioModificacion: '',
         fechaModificacion: DateTime.now(),
+        /*
         latitud: -2.194379,
         longitud: -79.762934
+        */
+        latitud: -2.1510772,
+        longitud: -79.8887465
       )
     );
 
     Color colorBtn = Colors.transparent;
     bool localizacionValida = false;
 
-    context.read<AuthBloc>().add(AppStarted());
+    //context.read<AuthBloc>().add(AppStarted());
 
     return Scaffold(
       body: BlocBuilder<GenericBloc, GenericState>(
@@ -161,6 +169,7 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+
                   SvgPicture.asset(
                     'assets/icons/friday_logomark.svg',
                   ),
@@ -178,6 +187,7 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
                   
                   SizedBox(height: size.height * 0.04,),
           
+                  if(!isMockLocation)
                   Container(
                     color: Colors.transparent,
                     width: size.width * 0.92,
@@ -196,9 +206,36 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
                     color: Colors.transparent,
                     width: size.width * 0.65,
                     child: GestureDetector(
-                      onTap: () {
-                        context.read<AuthBloc>().add(AppStarted());
-          
+                      onTap: () async {
+                        
+                        //context.read<AuthBloc>().add(AppStarted());
+
+                        /* 
+                        var connectivityResult = await (Connectivity().checkConnectivity());
+    
+                          if (!connectivityResult.contains(ConnectivityResult.mobile) && !connectivityResult.contains(ConnectivityResult.wifi)) {
+                            emit(AuthNoInternet());
+                          }
+                        */
+
+                        bool tomaFoto = true;
+                        
+                        var connectivityResult = await (Connectivity().checkConnectivity());
+    
+                        if (!connectivityResult.contains(ConnectivityResult.mobile) && !connectivityResult.contains(ConnectivityResult.wifi)) {
+                          tomaFoto = false;
+                        }
+
+                        if(tomaFoto && !isMockLocation) {
+                          //ignore: use_build_context_synchronously
+                          context.read<AuthBloc>().add(AppStarted());
+
+                          //ignore: use_build_context_synchronously
+                          context.push(Rutas().rutaTomaFoto);
+
+                          return;
+                        }
+
                         if(isMockLocation)
                         {
                           Fluttertoast.showToast(
@@ -226,7 +263,6 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
                           return;
                         }
                         
-                        context.push(Rutas().rutaTomaFoto);
                       },
                       child: TextButtonMarcacion(
                         text: 'Realizar Marcación',
@@ -251,7 +287,9 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
                         final gpsBloc = BlocProvider.of<GpsBloc>(context);
                         gpsBloc.vuelveUbicacionNormal(false);
 
-                        context.push(Rutas().rutaDatosPersonalesOnBoarding);
+                        //
+                        //context.push(Rutas().rutaDatosPersonalesOnBoarding);
+                        context.push(Rutas().rutaDatosScanQrOnBoarding);
                       },
                       child: TextButtonMarcacion(
                         text: 'Registrate',

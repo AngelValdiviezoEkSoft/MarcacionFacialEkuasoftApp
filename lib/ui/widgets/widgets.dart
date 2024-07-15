@@ -11,3 +11,5 @@ export 'package:marcacion_facial_ekuasoft_app/ui/widgets/marcacion_facial/marcac
 export 'package:marcacion_facial_ekuasoft_app/ui/widgets/maps/maps.dart';
 
 export 'package:marcacion_facial_ekuasoft_app/ui/widgets/alert_dialog/alert_dialog.dart';
+
+export 'package:marcacion_facial_ekuasoft_app/ui/widgets/generic/generic.dart';

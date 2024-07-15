@@ -22,7 +22,10 @@ class AuthInitial extends AuthState {}
 class AuthAuthenticated extends AuthState {}
 
 class AuthUnauthenticated extends AuthState {}
+
 class AuthNoInternet extends AuthState {}
+
+class AuthGpsFake extends AuthState {}
 
 class ValidLicenseKey extends AuthState {}
 

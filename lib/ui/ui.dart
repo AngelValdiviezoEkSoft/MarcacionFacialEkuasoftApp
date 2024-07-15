@@ -13,3 +13,5 @@ export 'package:marcacion_facial_ekuasoft_app/ui/helpers/helpers.dart';
 export 'package:marcacion_facial_ekuasoft_app/ui/views/views.dart';
 
 export 'package:marcacion_facial_ekuasoft_app/ui/delegates/delegates.dart';
+
+export 'package:marcacion_facial_ekuasoft_app/ui/theme/theme.dart';

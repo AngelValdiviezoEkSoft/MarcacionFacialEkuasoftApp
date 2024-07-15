@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
+//import 'package:trust_location/trust_location.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -49,7 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthUnauthenticated());
     }
     */
-    
+
     var connectivityResult = await (Connectivity().checkConnectivity());
     
     if (!connectivityResult.contains(ConnectivityResult.mobile) && !connectivityResult.contains(ConnectivityResult.wifi)) {
@@ -57,6 +58,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
     else {
       emit(AuthAuthenticated());
+      /*
+      bool isMockLocation = true;
+      
+      TrustLocation.onChange.listen((values) {
+
+        isMockLocation = values.isMockLocation ?? false;
+
+        if(isMockLocation){
+          emit(AuthGpsFake());
+        } else {
+          emit(AuthAuthenticated());
+        }
+
+      }
+      
+       
+      
+      );
+      */
     }
     
   }
