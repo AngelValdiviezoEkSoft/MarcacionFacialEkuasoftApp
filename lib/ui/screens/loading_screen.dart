@@ -9,14 +9,14 @@ import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
 export 'package:marcacion_facial_ekuasoft_app/config/config.dart';
 import 'package:marcacion_facial_ekuasoft_app/infraestructure/infraestructure.dart';
 
-class TomaFotoScreen extends StatefulWidget {
-  const TomaFotoScreen(Key? key) : super(key: key);
+class LoadingScreen extends StatefulWidget {
+  const LoadingScreen(Key? key) : super(key: key);
 
   @override
-  TomaFotoScreenState createState() => TomaFotoScreenState();
+  LoadingScreenState createState() => LoadingScreenState();
 }
 
-class TomaFotoScreenState extends State<TomaFotoScreen> {
+class LoadingScreenState extends State<LoadingScreen> {
 
   late CameraService _cameraService;
   late FaceDetectorService _faceDetectorService;
@@ -32,7 +32,20 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
   void initState() {
     super.initState();
     _start();
+
+    Future.delayed(
+      //const Duration(milliseconds: 4500),
+      const Duration(seconds: 2),
+      () {
+        _cameraService.dispose();
+        _mlService.dispose();
+        _faceDetectorService.dispose();
+        
+        context.push(Rutas().rutaDefault);
+      }
+    );
   }
+  
 
   @override
   void dispose() {
@@ -119,35 +132,12 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
     //context.push(Rutas().rutaDefault);
   }
 
-/*
-  _reload() {
-    if (mounted) setState(() => _isPictureTaken = false);
-    _start();
-  }
-  */
-
   Future<void> onTap() async {
     await takePicture();
     if (_faceDetectorService.faceDetected) {
-      /*
-      UserFotoModel? user = await _mlService.predict();
-      var bottomSheetController = scaffoldKey.currentState!.showBottomSheet((context) => tomaFotoScreenSheet(user: user));
-      bottomSheetController.closed.whenComplete(_reload);
-      */
       
       //ignore: use_build_context_synchronously
       context.pop();
-
-/*
-      showDialog(
-        //ignore: use_build_context_synchronously
-        context: context,
-        builder: (context) =>
-          const AlertDialog(
-            content: Text('Marcación exitosa !!')
-        )
-      );
-      */
 
       showDialog(
         barrierDismissible: false,
@@ -190,6 +180,7 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final sizeScreen = MediaQuery.of(context).size;
     Widget header = CameraHeader(null, "", onBackPressed: _onBackPressed);
     Widget body = getBodyWidget();
     Widget? fab;
@@ -197,6 +188,16 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
     if (!_isPictureTaken) fab = AuthButton(null, textoBoton: 'Marcar',onTap: onTap);
 
     return Scaffold(
+        backgroundColor: Colors.black.withOpacity(0.5),        
+        body: Container(
+          color: ColorsApp().morado,
+          width: sizeScreen.width,
+          height: sizeScreen.height * 0.99,
+          child: Image.asset(AppConfig().rutaGifCarga),
+        )
+      );
+    /*
+    Scaffold(
       key: scaffoldKey,
       body: Stack(
         children: [
@@ -207,9 +208,10 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: fab,
     );
+    */
   }
 
-  tomaFotoScreenSheet({@required UserFotoModel? user}) 
+  LoadingScreenSheet({@required UserFotoModel? user}) 
     => user == null ? 
     Container(
       width: MediaQuery.of(context).size.width,
@@ -220,6 +222,6 @@ class TomaFotoScreenState extends State<TomaFotoScreen> {
       ),
     )
     : 
-    tomaFotoScreenSheet(user: user);
+    LoadingScreenSheet(user: user);
 
 }

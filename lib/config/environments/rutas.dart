@@ -5,6 +5,7 @@ class Rutas{
   String rutaDatosFotoOnBoarding = '/grabaFotoScreen';
   String rutaDatosVideoOnBoarding = '/grabaVideoScreen';
   String rutaDatosScanQrOnBoarding = '/scanQrScreen';
+  String rutaCarga = '/cargaScreen';
 
   //imágenes 
   String rutaImagenes = 'assets/images/';

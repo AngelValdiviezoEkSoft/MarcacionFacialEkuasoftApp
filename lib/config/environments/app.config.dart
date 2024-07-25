@@ -30,6 +30,7 @@ class AppConfig {
   final String rutaGifPluxBlanco = 'assets/gifs/gifPluxBlanco.gif';
   final String rutaGifPluxGris = 'assets/gifs/gifPluxGris.gif';
   final String rutaGifPluxMorado = 'assets/gifs/gifPluxMorado.gif';
+  final String rutaGifCarga = 'assets/gifs/gif_carga.gif';  
   final String rutaGifProcesandoBlanco =
       'assets/gifs/gifProcesandoBlanco.gif';
   final String rutaGifProcesandoGris =

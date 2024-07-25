@@ -10,10 +10,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:marcacion_facial_ekuasoft_app/infraestructure/infraestructure.dart';
 import 'package:marcacion_facial_ekuasoft_app/ui/ui.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:marcacion_facial_ekuasoft_app/domain/domain.dart';
 
 bool validandoFoto = false;
@@ -274,7 +272,8 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
             ? 
             */
 
-            BlocBuilder<SuscripcionBloc, SuscripcionState>(builder: (context, stateSuscripcion) {
+            BlocBuilder<SuscripcionBloc, SuscripcionState>(
+              builder: (context, stateSuscripcion) {
                 return Form(
                   key: _frmState,
                   //autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -291,51 +290,71 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                           SizedBox(height: sizeFrmDatosPers.height * 0.008,),
                 
                           Container(
-                              color: Colors.transparent,
-                              width: sizeFrmDatosPers.width,
-                              height: sizeFrmDatosPers.height * 0.1,
-                              alignment: Alignment.bottomCenter,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  MaterialButton(
-                                    shape: const CircleBorder(),
-                                    disabledColor: Colors.white,
-                                    elevation: 0,
+                            color: Colors.transparent,
+                            width: sizeFrmDatosPers.width,
+                            height: sizeFrmDatosPers.height * 0.1,
+                            alignment: Alignment.bottomCenter,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                MaterialButton(
+                                  shape: const CircleBorder(),
+                                  disabledColor: Colors.white,
+                                  elevation: 0,
+                                  color: Colors.transparent,
+                                  child: Container(
                                     color: Colors.transparent,
-                                    child: Container(
-                                      color: Colors.transparent,
-                                      child: const Icon(
-                                        Icons.arrow_back_ios,
-                                        color: Colors.white,
-                                        size: 30,
-                                      ),
+                                    child: const Icon(
+                                      Icons.arrow_back_ios,
+                                      color: Colors.white,
+                                      size: 30,
                                     ),
-                                    onPressed: () {
-                                      context.pop();
-                                    }
                                   ),
+                                  onPressed: () {
+                                    rutaNuevaFotoPerfil = '';
+                                    context.pop();
+                                  }
+                                ),
+              
+                                MaterialButton(
+                                  shape: const CircleBorder(),
+                                  disabledColor: Colors.white,
+                                  elevation: 0,
+                                  color: Colors.transparent,
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: const Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  onPressed: () => exit(0),
+                                ),
+                              ],
+                            ),
+                          ),
                 
-                                  MaterialButton(
-                                    shape: const CircleBorder(),
-                                    disabledColor: Colors.white,
-                                    elevation: 0,
-                                    color: Colors.transparent,
-                                    child: Container(
-                                      color: Colors.transparent,
-                                      child: const Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    onPressed: () => exit(0),
-                                  ),
-                                ],
+                          SizedBox(height: sizeFrmDatosPers.height * 0.01,),
+
+                          Container(
+                            color: Colors.transparent,
+                            width: sizeFrmDatosPers.width * 0.85,
+                            height: sizeFrmDatosPers.height * 0.05,
+                            child: Center(
+                              child: AutoSizeText(
+                                'Registro de datos',
+                                style: TextStyle(
+                                  color: objColorsApp.naranjaIntenso,
+                                  fontFamily: objFuentesDatPers.fuenteMonserate
+                                ),
+                                maxLines: 1,
+                                presetFontSizes: const [20,18,16,14,12,10],
                               ),
                             ),
+                          ),
                 
-                          SizedBox(height: sizeFrmDatosPers.height * 0.04,),
+                          SizedBox(height: sizeFrmDatosPers.height * 0.02,),
                 
                           if(rutaNuevaFotoPerfil == '')
                           Container(
@@ -585,24 +604,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                             )
                           ),
                 
-                          Container(
-                            color: Colors.transparent,
-                            width: sizeFrmDatosPers.width * 0.85,
-                            height: sizeFrmDatosPers.height * 0.05,
-                            child: Center(
-                              child: AutoSizeText(
-                                'Cuéntanos de ti...',
-                                style: TextStyle(
-                                  color: objColorsApp.naranjaIntenso,
-                                  fontFamily: objFuentesDatPers.fuenteMonserate
-                                ),
-                                maxLines: 1,
-                                presetFontSizes: const [20,18,16,14,12,10],
-                              ),
-                            ),
-                          ),
-                
-                          SizedBox(height: sizeFrmDatosPers.height * 0.04,),
+                          SizedBox(height: sizeFrmDatosPers.height * 0.02,),
                 
                           Container(
                             color: Colors.transparent,
@@ -611,16 +613,15 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                             alignment: Alignment.center,
                             child: formItemsDesign(
                               Text(
-                                'Mis nombres son',
+                                '# Identificación',
                                 style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
                               ),
-                                TextFormField(
+                              TextFormField(
+                                keyboardType: TextInputType.number,
                                 inputFormatters: [FilteringTextInputFormatter.deny(RegExp(regexToRemoveEmoji))],
-                                //initialValue: objPrspValido.direccion,
-                                
                                 style: const TextStyle(color: Colors.white),
                                 maxLines: 1,
-                                maxLength: 80,
+                                maxLength: 10,
                                 decoration: InputDecorations.authInputDecoration(
                                   esEdicion: false,
                                   varEsContrasenia: false,
@@ -640,14 +641,12 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                   return null;
                                 },
                               ),
-                            
                               1,
                               null
-                            ),
-                
+                            ),                
                           ),
                 
-                          SizedBox(height: sizeFrmDatosPers.height * 0.04,),
+                          SizedBox(height: sizeFrmDatosPers.height * 0.02,),
                 
                           Container(
                             color: Colors.transparent,
@@ -656,7 +655,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                             alignment: Alignment.center,
                             child: formItemsDesign(
                               Text(
-                                'Nací el ',
+                                'Fecha de Nacimiento',
                                 style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
                               ),
                               TextButton(
@@ -664,6 +663,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: const BorderSide(color: Colors.white)))
                                 ),
                                 onPressed: () async {
+                                  /*
                                   initializeDateFormatting('es');
                                   DateTime fechaActual = DateTime.now();
                                   int anioActual = fechaActual.year;
@@ -693,6 +693,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                       objPrspValido.fechaNacimiento = DateFormat('dd-MM-yyyy', 'es').format(varSelectedDate);
                                     });
                                   }
+                                  */
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -708,7 +709,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                     const Icon(
                                       Icons.calendar_month_outlined,
                                       color: Colors.white,
-                                      size: 30,
+                                      size: 20,
                                     ),
                                   ],
                                 ),
@@ -719,14 +720,15 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                 
                           ),
                 
-                          SizedBox(height: sizeFrmDatosPers.height * 0.04,),
+                          SizedBox(height: sizeFrmDatosPers.height * 0.02,),
                 
                           Container(
                             color: Colors.transparent,
                             width: sizeFrmDatosPers.width * 0.85,
-                            height: sizeFrmDatosPers.height * 0.11,
+                            height: sizeFrmDatosPers.height * 0.07,
                             child: formItemsDesign(
-                              Text('Mi género es ',style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),),
+                              Text('Género',style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),),
+                              /*
                               DropdownButtonFormField<String>(
                                 borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                                 decoration: InputDecoration(
@@ -764,6 +766,18 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                 return null;
                                 },
                               ),
+                              */
+                              TextButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: const BorderSide(color: Colors.white)))
+                                ),
+                                onPressed: () async {
+                                },
+                                child: Text(
+                                      objPrspValido.fechaNacimiento,
+                                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                                    ),
+                              ),
                               2,
                               null
                             ),
@@ -776,25 +790,18 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                             width: sizeFrmDatosPers.width * 0.85,
                             height: sizeFrmDatosPers.height * 0.13,
                             child: formItemsDesign(
-                              Text('Y vivo en ',style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),),
+                              Text('Dirección',style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),),
+                              /*
                               TextFormField(
                                 inputFormatters: [FilteringTextInputFormatter.deny(RegExp(regexToRemoveEmoji))],
                                 //initialValue: objPrspValido.direccion,
                                 onChanged: (value) async
                                 {
-                                  if(value.isNotEmpty) {
-                
-                                    objPrspValido.direccion = value;
-                                    direccionProspecto = value;
-                
-                                    final direccionBusca = BlocProvider.of<SuscripcionBloc>(context);
-                                    direccionBusca.setDireccionUsuario(value);
-                
-                                  }
                                 },
-                                style: const TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white,),
                                 maxLines: 2,
                                 maxLength: 150,
+                                enabled: false,
                                 decoration: InputDecorations.authInputDecoration(
                                   esEdicion: false,
                                   varEsContrasenia: false,
@@ -814,11 +821,24 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                   return null;
                                 },
                               ),
-                            3,
-                            null
-                          ),
+                              */
+                              TextButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: const BorderSide(color: Colors.white)))
+                                ),
+                                onPressed: () async {
+                                },
+                                child: Text(
+                                      objPrspValido.fechaNacimiento,
+                                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                                    ),
+                              ),
                               
-                        ),
+                              3,
+                              null
+                            ),
+                              
+                          ),
                 
                                 /*                                              
                           //Ubicación
@@ -1062,7 +1082,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                 
                                 bool rsp = await ProspectoTypeService().llenaData(objPrspValido);
                 
-                                if(rsp) 
+                                if(rsp)
                                 {
                                   //await ProspectoTypeService().registraProspecto(objPrspValido);
                                   msmFinal = 'Registro de datos correcto !!';
@@ -1076,6 +1096,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                   context.pop();
                                 }                                
                 
+                                rutaNuevaFotoPerfil = '';
 
                                 showDialog(
                                   barrierDismissible: false,

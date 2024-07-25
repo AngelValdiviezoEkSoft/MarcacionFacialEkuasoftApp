@@ -84,18 +84,19 @@ class InputDecorations{
     InputDecoration(
      // border: OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(1.0))),
       enabledBorder: OutlineInputBorder(//UnderlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(10.0)
+      ),
         borderSide: BorderSide(
           color: colorBordes ?? Colors.deepOrange,
         ),
       ),
-      focusedBorder: OutlineInputBorder(//UnderlineInputBorder(
+      focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
           color: colorBordes ?? Colors.deepOrange,
           width: 2
           )
         ),
-      hintText: hintText,//'avaldiviezo@riasem.com.ec',
+      hintText: hintText,
       hintStyle: TextStyle(color: colorTexto),
       errorStyle: TextStyle(color: colorTexto),
       counterStyle: TextStyle(color: colorTexto),

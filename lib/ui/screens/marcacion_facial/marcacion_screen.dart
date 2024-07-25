@@ -37,81 +37,10 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
   @override
   void initState() {
     super.initState();
-
-    /*
-    auth.isDeviceSupported().then(
-          (bool isSupported) => setState(() => _supportState = isSupported
-              ? _SupportState.supported
-              : _SupportState.unsupported),
-        );
-        */
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-    /*
-    context.read<ContactBloc>().add(LoadContactGeneralList());
-
-    Future.delayed(const Duration(seconds: 2), () async {
-      final objRutas = Rutas();
-
-      bool authenticated = false;
-
-      const storage = FlutterSecureStorage();
-      final objEnvironmentProd = EnvironmentProd();
-
-      //context.read<PinBloc>().add(ResetPin());
-      //context.go('/enter_pin');
-
-      //String isAuth = await storage.read(key: 'isAuthenticated') ?? '';
-      String isPin = await storage.read(key: objEnvironmentProd.isPin) ?? '';
-      String tieneToken = await storage.read(key: objEnvironmentProd.tokenApp) ?? '';
-
-      if(tieneToken.isNotEmpty)
-      {
-
-        if(_supportState == _SupportState.unsupported || isPin == 'S'){
-          context.read<PinBloc>().add(ResetPin());          
-          context.go(objRutas.rutaEnterPin);
-        }
-        else {
-          
-          try{
-            authenticated = await auth.authenticate(
-              localizedReason: 'Identifíquese',
-              options: const AuthenticationOptions(
-                stickyAuth: true
-              ),
-            );
-            
-            if(authenticated) {
-              Future.delayed(const Duration(milliseconds: 0), () {
-                context.go(objRutas.rutaChats);
-              });
-            } else {
-              Fluttertoast.showToast(
-                msg: "Usuario no cuenta con permisos de acceso.",
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.TOP,
-                timeInSecForIosWeb: 5,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 16.0
-              );
-            }
-          }
-          catch(ex){
-            //print(ex);
-          }
-          
-          //await authenticate();
-        }
-      }
-      
-    });
-    */
 
     final size = MediaQuery.of(context).size;
 
@@ -130,12 +59,14 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
         usuarioCreacion: '',
         usuarioModificacion: '',
         fechaModificacion: DateTime.now(),
-        /*
+        
         latitud: -2.194379,
         longitud: -79.762934
-        */
+        
+        /*
         latitud: -2.1510772,
         longitud: -79.8887465
+        */
       )
     );
 
