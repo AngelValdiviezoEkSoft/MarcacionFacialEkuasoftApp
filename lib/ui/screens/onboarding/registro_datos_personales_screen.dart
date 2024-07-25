@@ -632,10 +632,26 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                   labelText: '',
                                   varOnPress: () {}
                                 ),
+                                onChanged: (value) {
+                                  
+                                  if(value.isNotEmpty && value.length == 10) {
+                                    //String rst = ValidacionesUtils().validaCedula(value);
+                                  }
+
+                                },
                                 validator: (value) {
                                   
                                   if(value == null || value.isEmpty) {
-                                    return 'Ingrese sus nombres';
+                                    return 'Ingrese número de identificación';
+                                  }
+
+                                  if(value.length == 10) {
+                                    String rst = ValidacionesUtils().validaCedula(value);
+
+                                    if(rst != 'Ok') {
+                                      return rst == 'Ok' ? null : 'Cédula inválida.';
+                                    }
+
                                   }
                 
                                   return null;

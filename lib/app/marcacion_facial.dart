@@ -37,7 +37,7 @@ class MarcacionFacialState extends State<MarcacionFacial> {
     super.initState();
     _initializeServices();
     
-    noScreenshot.screenshotOff();
+    //noScreenshot.screenshotOff();
 
     TrustLocation.start(1);
     getLocation();
