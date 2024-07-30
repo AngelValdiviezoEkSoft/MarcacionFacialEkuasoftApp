@@ -18,6 +18,24 @@ bool validandoFoto = false;
 String tipoClienteDatosPersonales = '';
 bool varCoordenadasRes = false;
 String direccionProspecto = '';
+String fechaNacimiento = '';
+String numIdentificacionColab = '';
+String imgBase64 = '';
+
+EmpleadoResponseModel objEmpleadoResponseModel = EmpleadoResponseModel(
+  code: 0,
+  data: EmpleadoModel (
+    birthday: '',//DateTime.now(),
+    gender: '',
+    id: 0,
+    name: '',
+    privateStreet2: '',
+    privateStreet: ''
+  ),
+  message: '',
+  status: '',
+  success: false
+);
 
 ProspectoType objPrspValido = ProspectoType(
   alias: '',
@@ -632,10 +650,37 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                   labelText: '',
                                   varOnPress: () {}
                                 ),
-                                onChanged: (value) {
+                                onChanged: (value) async {
                                   
                                   if(value.isNotEmpty && value.length == 10) {
-                                    //String rst = ValidacionesUtils().validaCedula(value);
+                                    numIdentificacionColab = value;
+
+                                    showDialog(
+                                      barrierDismissible: false,
+                                      //ignore: use_build_context_synchronously
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return const DialogContentEksWidget(
+                                          title: 'Atención',
+                                          textPrimaryButton: '',
+                                          colorIcon: Colors.blueGrey,
+                                          message: 'Consultando sus datos',
+                                          numMessageLines: 1,                                                                                    
+                                          hasTwoOptions: false,
+                                        );
+                                      },
+                                    );
+
+                                    objEmpleadoResponseModel = await ColaboradorService().datosColaborador(value);
+
+                                    //ignore: use_build_context_synchronously
+                                    context.pop();
+                                    
+                                    fechaNacimiento = objEmpleadoResponseModel.data.birthday;//DateFormat('dd-MM-yyyy', 'es').format(objEmpleadoResponseModel.data.birthday);
+                                    
+                                    setState(() {
+                                      
+                                    });
                                   }
 
                                 },
@@ -661,6 +706,30 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                               null
                             ),                
                           ),
+
+                          SizedBox(height: sizeFrmDatosPers.height * 0.02,),
+                
+                          Container(
+                            color: Colors.transparent,
+                            width: sizeFrmDatosPers.width * 0.85,
+                            height: sizeFrmDatosPers.height * 0.07,
+                            child: formItemsDesign(
+                              Text('Nombres',style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),),                              
+                              TextButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: const BorderSide(color: Colors.white)))
+                                ),
+                                onPressed: () async {
+                                },
+                                child: Text(
+                                      objEmpleadoResponseModel.data.name,
+                                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                                    ),
+                              ),
+                              2,
+                              null
+                            ),
+                          ),
                 
                           SizedBox(height: sizeFrmDatosPers.height * 0.02,),
                 
@@ -679,37 +748,6 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: const BorderSide(color: Colors.white)))
                                 ),
                                 onPressed: () async {
-                                  /*
-                                  initializeDateFormatting('es');
-                                  DateTime fechaActual = DateTime.now();
-                                  int anioActual = fechaActual.year;
-                                  int anioValido = anioActual - 18;
-                                  DateTime? varSelectedDate = await showDatePicker(
-                                    cancelText: 'Cancelar',
-                                    confirmText: 'Ok',
-                                    fieldLabelText: 'Mes/Día/Año',
-                                    helpText: '',
-                                    initialEntryMode: DatePickerEntryMode.calendarOnly,
-                                    errorFormatText: 'Formato inválido',
-                                    context: context,
-                                    initialDate: DateTime(1940),
-                                    firstDate: DateTime(1940),
-                                    lastDate: DateTime(anioValido + 1),
-                                    builder: (context, child) {
-                                      return Theme(
-                                        data: Theme.of(context).copyWith(colorScheme: ColorScheme.light(primary: objColorsApp.naranjaIntenso, onPrimary: Colors.white), textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(backgroundColor: Colors.white))),
-                                        child: child!,
-                                      );
-                                    },
-                                  );
-                
-                                  if (varSelectedDate != null) {
-                                    objPrspValido.fechaNacDate = varSelectedDate;
-                                    setState(() {
-                                      objPrspValido.fechaNacimiento = DateFormat('dd-MM-yyyy', 'es').format(varSelectedDate);
-                                    });
-                                  }
-                                  */
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -719,7 +757,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     Text(
-                                      objPrspValido.fechaNacimiento,
+                                      fechaNacimiento,
                                       style: const TextStyle(color: Colors.white, fontSize: 15),
                                     ),
                                     const Icon(
@@ -790,7 +828,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                 onPressed: () async {
                                 },
                                 child: Text(
-                                      objPrspValido.fechaNacimiento,
+                                      objEmpleadoResponseModel.data.gender,
                                       style: const TextStyle(color: Colors.white, fontSize: 15),
                                     ),
                               ),
@@ -804,50 +842,23 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                           Container(
                             color: Colors.transparent,
                             width: sizeFrmDatosPers.width * 0.85,
-                            height: sizeFrmDatosPers.height * 0.13,
+                            height: sizeFrmDatosPers.height * 0.15,
                             child: formItemsDesign(
                               Text('Dirección',style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),),
-                              /*
-                              TextFormField(
-                                inputFormatters: [FilteringTextInputFormatter.deny(RegExp(regexToRemoveEmoji))],
-                                //initialValue: objPrspValido.direccion,
-                                onChanged: (value) async
-                                {
-                                },
-                                style: const TextStyle(color: Colors.white,),
-                                maxLines: 2,
-                                maxLength: 150,
-                                enabled: false,
-                                decoration: InputDecorations.authInputDecoration(
-                                  esEdicion: false,
-                                  varEsContrasenia: false,
-                                  colorBordes: Colors.white,
-                                  colorTexto: Colors.white,
-                                  varTamanioIcono: 35,
-                                  hintText: '',
-                                  labelText: '',
-                                  varOnPress: () {}
+                              Container(
+                                color: Colors.transparent,
+                                height: sizeFrmDatosPers.height * 0.22,
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: const BorderSide(color: Colors.white)))
+                                  ),
+                                  onPressed: () async {
+                                  },
+                                  child: Text(
+                                        objEmpleadoResponseModel.data.privateStreet,
+                                        style: const TextStyle(color: Colors.white, fontSize: 15),
+                                      ),
                                 ),
-                                validator: (value) {
-                                  
-                                  if(value == null || value.isEmpty) {
-                                    return 'Ingrese su dirección';
-                                  }
-                
-                                  return null;
-                                },
-                              ),
-                              */
-                              TextButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: const BorderSide(color: Colors.white)))
-                                ),
-                                onPressed: () async {
-                                },
-                                child: Text(
-                                      objPrspValido.fechaNacimiento,
-                                      style: const TextStyle(color: Colors.white, fontSize: 15),
-                                    ),
                               ),
                               
                               3,
@@ -855,230 +866,9 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                             ),
                               
                           ),
-                
-                                /*                                              
-                          //Ubicación
-                          Container(
-                            color: Colors.transparent,
-                            width: sizeFrmDatosPers.width * 0.84,
-                            height: sizeFrmDatosPers.height * 0.11,
-                            alignment: Alignment.center,
-                            child: formItemsDesign(
-                              Text(
-                                'En esta ubicación',
-                                style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
-                              ),
-                              Container(
-                                color: Colors.transparent,
-                                width: sizeFrmDatosPers.width * 0.064,//80,
-                                height: sizeFrmDatosPers.height * 0.1,//100,
-                                alignment: Alignment.center,
-                                child: Container(
-                                  width: sizeFrmDatosPers.width * 0.218,//_widthAnimation!.value,//sizeFrmDatosPers.width * 0.213,//80,
-                                  height: sizeFrmDatosPers.height * 0.095,//100,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: state.tieneUbicacion ? Colors.orange.withOpacity(.4) : Colors.grey.withOpacity(.4)),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      final gpsBloc = BlocProvider.of<GpsBloc>(context);
-                                      gpsBloc.vuelveUbicacionNormal(true);
-                                    },
-                                    child: Stack(children: <Widget>[
-                                      AnimatedBuilder(
-                                        animation: _positionController!,
-                                        builder: (context, child) => Positioned(
-                                          left: _positionAnimation!.value,
-                                          child: AnimatedBuilder(
-                                            animation: _scale2Controller!,
-                                            builder: (context, child) => Transform.scale(
-                                              scale: _scale2Animation!.value,
-                                              child: Container(
-                                                width: sizeFrmDatosPers.width * 0.16,
-                                                height: sizeFrmDatosPers.height * 0.07,
-                                                alignment: Alignment.center,
-                                                decoration: BoxDecoration(shape: BoxShape.circle, color: state.tieneUbicacion ? Colors.orange.withOpacity(.4) : Colors.grey.withOpacity(.4)),
-                                                child: Container(
-                                                  width: sizeFrmDatosPers.width * 0.17,
-                                                  height: sizeFrmDatosPers.height * 0.07,
-                                                  padding: const EdgeInsets.all(10),
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: state.tieneUbicacion ? Colors.orange.withOpacity(.4) : Colors.grey.withOpacity(.4)),
-                                                  child: InkWell(
-                                                    child: Stack(children: <Widget>[
-                                                      AnimatedBuilder(
-                                                        animation: _positionController!,
-                                                        builder: (context, child) => Positioned(
-                                                          left: _positionAnimation!.value,
-                                                          child: AnimatedBuilder(
-                                                            animation: _scale2Controller!,
-                                                            builder: (context, child) => 
-                                                              Transform.scale(
-                                                                scale: _scale2Animation!.value,
-                                                                child: Container(
-                                                                  color: Colors.transparent,
-                                                                  width: sizeFrmDatosPers.width * 0.1,//40,
-                                                                  height: sizeFrmDatosPers.height * 0.05,//40,
-                                                                  child: Container(
-                                                                    color: Colors.transparent,
-                                                                    child: Image(
-                                                                    image: const AssetImage('assets/IcMapaPaso3.png'),
-                                                                    fit: BoxFit.cover,
-                                                                    height: sizeFrmDatosPers.height * 0.05,//50,
-                                                                  )
-                                                                )
-                                                              )
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ]),
-                                                  ),
-                                                ),
-                                              )
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                                  ),
-                                ),
-                              ),
-                              4,
-                              state.tieneUbicacion
-                              ? Container(
-                                  color: Colors.transparent,
-                                  child: const Icon(
-                                    Icons.check,
-                                    color: Colors.green,
-                                    size: 37,
-                                  )
-                                )
-                              : null,
-                            ),
-                              
-                          ),
                           
-                          if (state.tieneUbicacion) 
-                          Container(
-                            color: Colors.transparent,
-                            width: sizeFrmDatosPers.width * 0.85,
-                            height: sizeFrmDatosPers.height * 0.1,
-                            child: Row(
-                              children: [
-                                const SizedBox(
-                                  width: 3,
-                                ),
-                                Text(
-                                  'Mi correo electrónico es ',
-                                  style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
-                                ),
-                                const SizedBox(
-                                  width: 1,
-                                ),
-                              ],
-                            ),
-                          ),
-                
-                          if (state.tieneUbicacion)
-                          Container(
-                            color: Colors.transparent,
-                            width: sizeFrmDatosPers.width * 0.85,
-                            height: 90,
-                            padding: const EdgeInsets.all(5),
-                            child: TextFormField(
-                              inputFormatters: [FilteringTextInputFormatter.deny(RegExp(regexToRemoveEmoji))],
-                              maxLines: 2,
-                              minLines: 1,
-                              //initialValue: varObjetoProspectoFunc!.email,
-                              onChanged: (value) //=> clienteForm.Correo = value,
-                              {
-                                //clienteForm.varCorreo = value;
-                                varObjetoProspectoFunc!.email = value;
-                              },
-                              autocorrect: false,
-                              keyboardType: TextInputType.emailAddress, //tipo de imput -> correo
-                              style: TextStyle(fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
-                              decoration: InputDecorations.authInputDecoration(
-                                esEdicion: false,
-                                varTamanioIcono: 20,
-                                colorBordes: Colors.white,
-                                varEsContrasenia: false,
-                                hintText: '*****@riasem.com.ec',
-                                labelText: '',
-                                varOnPress: () {}
-                              ),
-                              validator: (value) {
-                                String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                                RegExp regExp = RegExp(pattern);
-                                return regExp.hasMatch(value ?? '')
-                                  ? null
-                                  : 'Correo invalido';
-                              },
-                            ),
-                          ),
-                          
-                          if (state.tieneUbicacion)
-                            const SizedBox(
-                              height: 4,
-                            ),
-                                        
-                          if (state.tieneUbicacion)
-                            Container(
-                                        width: _widthAnimation!.value,
-                                        height: 80,
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          color: Colors.orange.withOpacity(.4)
-                                        ),
-                                        child: InkWell(
-                                          onTap: () async {
-                                            
-                                            if (varObjetoProspectoFunc != null && varObjetoProspectoFunc!.fechaNacimiento.isNotEmpty) {
-                                              _scaleController!.forward();
-                                            } else {
-                                              //ignore: use_build_context_synchronously
-                                              /*
-                                              CustomBgAlertBox(
-                                                context: context,
-                                                title: 'Error al registrar datos',
-                                                infoMessage: 'Debes ingresar información correcta.',
-                                                buttonColor: Colors.red,
-                                                buttonText: 'Cerrar',
-                                                icon: Icons.cancel,
-                                                titleTextColor: Colors.red[400],
-                                              );
-                                              */
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) =>
-                                                  const AlertDialog(content: Text('Debes ingresar información correcta.')
-                                                )
-                                              );
-                                            }
-                                          },
-                                          child: Stack(
-                                            children: <Widget>[
-                                              Container(
-                                                width: 60,
-                                                height: 60,
-                                                decoration: BoxDecoration(shape: BoxShape.circle, color: objColorsApp.naranjaIntenso),
-                                                child: const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  color: Colors.white,
-                                                )
-                                              )
-                                                        
-                                            ]
-                                          ),
-                                        ),
-                                      ),
-                                      
-                          
-                          const SizedBox(
-                            height: 18,
-                          ),
-                          */
-                
+                          SizedBox(height: sizeFrmDatosPers.height * 0.03,),
+
                           Container(
                             width: _widthAnimation!.value,
                             height: 80,
@@ -1093,26 +883,8 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                 if(!_frmState.currentState!.validate()) {
                                   return;
                                 }
-                
-                                String msmFinal = '';
-                                
-                                bool rsp = await ProspectoTypeService().llenaData(objPrspValido);
-                
-                                if(rsp)
-                                {
-                                  //await ProspectoTypeService().registraProspecto(objPrspValido);
-                                  msmFinal = 'Registro de datos correcto !!';
-                                }
-                                else {
-                                  msmFinal = 'Falta ingresar datos !!';
-                                }
-                
-                                if(rsp) {
-                                  //ignore: use_build_context_synchronously
-                                  context.pop();
-                                }                                
-                
-                                rutaNuevaFotoPerfil = '';
+
+                                FocusScope.of(context).unfocus();
 
                                 showDialog(
                                   barrierDismissible: false,
@@ -1122,11 +894,86 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                     return DialogContentEksWidget(
                                       title: 'Atención',
                                       textPrimaryButton: 'Aceptar',
-                                      colorIcon: Colors.red,
+                                      colorIcon: Colors.blueGrey,
+                                      message: 'Espere mientras registramos sus datos',
+                                      numMessageLines: 1,
+                                      onPressedPrimaryButton: () {
+                                        context.pop();
+                                      },
+                                      hasTwoOptions: false,
+                                    );
+                                  },
+                                );
+                
+                                String msmFinal = '';
+                                
+                                //bool rsp = await ProspectoTypeService().llenaData(objPrspValido);
+
+                                final rspReg = await ColaboradorService().registraColaborador(numIdentificacionColab, imgBase64);
+                
+                                Color colorResp = Colors.transparent;
+
+                                if(rspReg != null && rspReg.result != null){
+                                  msmFinal = rspReg.result!.message;
+                                  colorResp = Colors.green;
+                                } else {
+                                  msmFinal = 'Error al intentar grabar sus datos.';
+                                  colorResp = Colors.red;
+                                }
+                                
+                                /*
+                                if(rsp)
+                                {
+                                  //await ProspectoTypeService().registraProspecto(objPrspValido);
+                                  msmFinal = rspReg.result.message;//'Registro de datos correcto !!';
+                                }
+                                else {
+                                  msmFinal = 'Falta ingresar datos !!';
+                                }
+                                */
+                /*
+                                if(rsp) {
+                                  //ignore: use_build_context_synchronously
+                                  context.pop();
+                                }      
+                                */        
+
+                                //ignore: use_build_context_synchronously                  
+                                context.pop();
+                
+                                rutaNuevaFotoPerfil = '';
+                                numIdentificacionColab = '';
+                                
+                                objEmpleadoResponseModel = EmpleadoResponseModel(
+                                  code: 0,
+                                  data: EmpleadoModel(
+                                    birthday: '',
+                                    gender: '',
+                                    id: 0,
+                                    name: '',
+                                    privateStreet2: '',
+                                    privateStreet: ''
+                                  ),
+                                  message: '',
+                                  status: '',
+                                  success: false
+                                );
+
+                                showDialog(
+                                  barrierDismissible: false,
+                                  //ignore: use_build_context_synchronously
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DialogContentEksWidget(
+                                      title: 'Atención',
+                                      textPrimaryButton: 'Aceptar',
+                                      colorIcon: colorResp,
                                       message: msmFinal,
                                       numMessageLines: 1,
                                       onPressedPrimaryButton: () {
-                                        Navigator.of(context).pop();
+                                        context.pop();
+                                        context.pop();
+                                        //context.push(Rutas().rutaDefault);
                                       },
                                       hasTwoOptions: false,
                                     );

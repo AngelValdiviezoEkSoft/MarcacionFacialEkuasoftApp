@@ -1,4 +1,3 @@
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,7 +45,6 @@ class LoadingScreenState extends State<LoadingScreen> {
     );
   }
   
-
   @override
   void dispose() {
     _cameraService.dispose();
@@ -74,13 +72,14 @@ class LoadingScreenState extends State<LoadingScreen> {
 
   _frameFaces() async {
     bool processing = false;
-    _cameraService.cameraController!
-        .startImageStream((CameraImage image) async {
-      if (processing) return; // prevents unnecessary overprocessing.
-      processing = true;
-      await _predictFacesFromImage(image: image);
-      processing = false;
-    });
+    _cameraService.cameraController!.startImageStream(
+      (CameraImage image) async {
+        if (processing) return; // prevents unnecessary overprocessing.
+        processing = true;
+        await _predictFacesFromImage(image: image);
+        processing = false;
+      }
+    );
   }
 
   Future<void> _predictFacesFromImage({@required CameraImage? image}) async {

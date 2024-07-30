@@ -1,3 +1,9 @@
+export 'package:marcacion_facial_ekuasoft_app/domain/models/registro_empleado_response.dart';
+
+export 'package:marcacion_facial_ekuasoft_app/domain/models/empleado_response_model.dart';
+
+export 'package:marcacion_facial_ekuasoft_app/domain/models/empleado_model.dart';
+
 export 'package:marcacion_facial_ekuasoft_app/domain/models/client_type_response.dart';
 
 export 'package:marcacion_facial_ekuasoft_app/domain/models/response_validation.dart';

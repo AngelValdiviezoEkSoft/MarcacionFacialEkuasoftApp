@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -114,10 +117,10 @@ class GrabaFotoScreenState extends State<GrabaFotoScreen> {
           );
           
           if (croppedFile != null) {
-            /*
+            
             final bytes = File(croppedFile.path).readAsBytesSync();
-            String img64 = base64Encode(bytes);
-            */
+            imgBase64 = base64Encode(bytes);
+            
 
             validandoFoto = true;
 

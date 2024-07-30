@@ -83,11 +83,14 @@ class _MarcacionMapScreenState extends State<MarcacionMapScreen> {
 
                   for(int i = 0; i < lstLocalidadVerifica!.length; i++) {
                     respDistancia = calculateDistance(locationState.lastKnownLocation!.latitude,locationState.lastKnownLocation!.longitude,lstLocalidadVerifica?[i].latitud ?? 0,lstLocalidadVerifica?[i].longitud ?? 0,);
-                    
+                    latLlegada = lstLocalidadVerifica?[i].latitud ?? 0;
+                    lonLlegada = lstLocalidadVerifica?[i].longitud ?? 0;
+                    posicionInicial.setLocalidadId(lstLocalidadVerifica?[i].id ?? '');
+                    posicionInicial.setRadioMarcacion(lstLocalidadVerifica![i].radio);
+                    /*
                     if(respDistancia < lstLocalidadVerifica![i].radio) {
-                      
                       latLlegada = lstLocalidadVerifica?[i].latitud ?? 0;
-                      lonLlegada = lstLocalidadVerifica?[i].longitud ?? 0;
+                      lonLlegada = lstLocalidadVerifica?[i].longitud ?? 0;                      
                       posicionInicial.setLocalidadId(lstLocalidadVerifica?[i].id ?? '');
                       posicionInicial.setRadioMarcacion(lstLocalidadVerifica![i].radio);
                       if(lstLocalidadVerifica!.length - 1 == 0) {
@@ -95,6 +98,7 @@ class _MarcacionMapScreenState extends State<MarcacionMapScreen> {
                       }
                       break;
                     }
+                    */
                   }
 
                   if(lstLocalidadVerifica!.length - 1 >= 0) {
@@ -117,7 +121,6 @@ class _MarcacionMapScreenState extends State<MarcacionMapScreen> {
                     //icon: 'Icons.map',//Para cambiar el ícono
                   );
                   
-                  //Descomentar pa ver en el mapa
                   Set<Circle> circleLst = Set<Circle>.from([
                     Circle(
                       circleId: const CircleId('1'),
