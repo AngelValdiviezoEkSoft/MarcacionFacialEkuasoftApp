@@ -59,10 +59,10 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
         usuarioCreacion: '',
         usuarioModificacion: '',
         fechaModificacion: DateTime.now(),
-        /*
+        
         latitud: -2.194379,
         longitud: -79.762934
-        */
+        
         /*
         latitud: -2.1510772,
         longitud: -79.8887465         
@@ -72,8 +72,10 @@ class _MarcacionScreenState extends State<MarcacionScreen> {
         longitud: -79.889141
           
         */
+        /*
         latitud: -2.194837,
         longitud: -79.763805
+        */
       )
     );
 

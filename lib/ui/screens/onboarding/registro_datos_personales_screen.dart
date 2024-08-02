@@ -22,6 +22,8 @@ String fechaNacimiento = '';
 String numIdentificacionColab = '';
 String imgBase64 = '';
 
+TextEditingController cedulaTxt = TextEditingController();
+
 EmpleadoResponseModel objEmpleadoResponseModel = EmpleadoResponseModel(
   code: 0,
   data: EmpleadoModel (
@@ -249,7 +251,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
       final bytes = File(objFoto.path).readAsBytesSync();
       String fotoTmp = base64Encode(bytes);
 
-      String primerNombre = objPrspValido?.nombres.split(' ')[0] ?? '';
+      String primerNombre = objPrspValido.nombres.split(' ')[0];
       
       rutaNuevaFotoPerfil = objFoto.path;
       
@@ -635,6 +637,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                 style: TextStyle(color: Colors.white, fontFamily: objFuentesDatPers.fuenteMonserate, fontSize: 18),
                               ),
                               TextFormField(
+                                controller: cedulaTxt,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [FilteringTextInputFormatter.deny(RegExp(regexToRemoveEmoji))],
                                 style: const TextStyle(color: Colors.white),
@@ -653,6 +656,30 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                 onChanged: (value) async {
                                   
                                   if(value.isNotEmpty && value.length == 10) {
+
+                                    String rst = ValidacionesUtils().validaCedula(value);
+
+                                    if(rst != 'Ok') {
+                                      showDialog(
+                                        barrierDismissible: false,
+                                        //ignore: use_build_context_synchronously
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return DialogContentEksWidget(
+                                            title: 'Atención',
+                                            textPrimaryButton: 'Cerrar',
+                                            colorIcon: Colors.blueGrey,
+                                            message: 'Cédula incorrecta',
+                                            numMessageLines: 1,                                                                                    
+                                            hasTwoOptions: false,
+                                            onPressedPrimaryButton: () => context.pop(),
+                                          );
+                                        },
+                                      );
+
+                                      return;
+                                    }
+
                                     numIdentificacionColab = value;
 
                                     showDialog(
@@ -660,7 +687,7 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                       //ignore: use_build_context_synchronously
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return const DialogContentEksWidget(
+                                        return const DialogCargandoContentEksWidget(
                                           title: 'Atención',
                                           textPrimaryButton: '',
                                           colorIcon: Colors.blueGrey,
@@ -891,15 +918,12 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                                   //ignore: use_build_context_synchronously
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return DialogContentEksWidget(
+                                    return const DialogCargandoContentEksWidget(
                                       title: 'Atención',
-                                      textPrimaryButton: 'Aceptar',
+                                      textPrimaryButton: '',
                                       colorIcon: Colors.blueGrey,
-                                      message: 'Espere mientras registramos sus datos',
-                                      numMessageLines: 1,
-                                      onPressedPrimaryButton: () {
-                                        context.pop();
-                                      },
+                                      message: 'Registrando sus datos',
+                                      numMessageLines: 1,                                      
                                       hasTwoOptions: false,
                                     );
                                   },
@@ -943,6 +967,11 @@ class RegistroDatosPersonalesScreenState extends State<RegistroDatosPersonalesSc
                 
                                 rutaNuevaFotoPerfil = '';
                                 numIdentificacionColab = '';
+                                cedulaTxt = TextEditingController ();
+                                cedulaTxt.text = '';
+                                cedulaTxt.value = const TextEditingValue(
+                                  text: ''
+                                );
                                 
                                 objEmpleadoResponseModel = EmpleadoResponseModel(
                                   code: 0,

@@ -16,7 +16,7 @@ class AuthType {
 */
   AuthType(){
     authBasic = {
-      'Cookie': 'session_id=fc3e7b6dd83af535dbf7da5dc3e77466b2e45041',
+      'Cookie': 'session_id=8d9fa51c96e0933ca9f086cba1c49dc073450deb',
     };
   }
 }
